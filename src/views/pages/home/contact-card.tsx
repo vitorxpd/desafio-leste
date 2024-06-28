@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom'
+
 import { IContact } from '@/contexts/contact-context'
 import { Button } from '@/views/components/ui/button'
 
@@ -16,6 +18,12 @@ interface IContactCardProps {
 }
 
 export function ContactCard({ contact, onOpenRemoveModal }: IContactCardProps) {
+  const navigate = useNavigate()
+
+  function handleEditContact() {
+    navigate(`/edit-contact/${contact.id}`)
+  }
+
   return (
     <Card key={contact.id} className="mx-auto max-w-[320px]">
       <CardHeader className="flex-row items-center gap-4">
@@ -49,7 +57,9 @@ export function ContactCard({ contact, onOpenRemoveModal }: IContactCardProps) {
       </CardContent>
 
       <CardFooter className="flex justify-end gap-2">
-        <Button variant="outline">Edit</Button>
+        <Button variant="outline" onClick={handleEditContact}>
+          Edit
+        </Button>
         <Button variant="destructive" onClick={onOpenRemoveModal}>
           Remove
         </Button>
