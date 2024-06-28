@@ -87,13 +87,6 @@
         "max": 1
       }
     ],
-    "prettier/prettier": [
-      "error",
-      {
-        "semi": false,
-        "singleQuote": true
-      }
-    ],
     "react/react-in-jsx-scope": "off"
   }
 }

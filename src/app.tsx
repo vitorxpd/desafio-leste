@@ -1,14 +1,5 @@
+import './globals.css'
+
 export function App() {
-  return (
-    <h1
-      style={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-      }}
-    >
-      Hello World
-    </h1>
-  )
+  return <h1 className="text-3xl font-bold underline">Hello world!</h1>
 }
