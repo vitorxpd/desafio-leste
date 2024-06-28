@@ -6,7 +6,10 @@ export function DefaultLayout() {
   return (
     <>
       <Header />
-      <Outlet />
+
+      <main className="mx-auto max-w-[1440px]">
+        <Outlet />
+      </main>
     </>
   )
 }
