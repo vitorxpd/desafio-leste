@@ -16,8 +16,15 @@ export function Home() {
   const { contacts } = useContext(ContactContext)
 
   return (
-    <main>
-      <section className="mx-auto lg:max-w-[1440px]">
+    <main className="py-8">
+      <section className="mx-auto mb-8 flex max-w-[1440px] items-center justify-between px-8">
+        <h1 className="text-3xl font-bold text-primary-green">Contacts</h1>
+        <Button className="bg-primary-green hover:bg-primary-green hover:opacity-80">
+          Add Contact
+        </Button>
+      </section>
+
+      <section className="mx-auto max-w-[1440px] px-8">
         <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {contacts.map((contact) => (
             <Card key={contact.id} className="mx-auto max-w-[320px]">
