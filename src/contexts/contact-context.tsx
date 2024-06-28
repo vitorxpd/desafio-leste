@@ -1,6 +1,12 @@
-import { createContext, ReactNode, useEffect, useState } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 
-interface IContact {
+export interface IContact {
   avatar: string
   birthday: string
   email: string
@@ -42,4 +48,8 @@ export function ContactProvider({ children }: { children: ReactNode }) {
       {children}
     </ContactContext.Provider>
   )
+}
+
+export function useContact() {
+  return useContext(ContactContext)
 }
