@@ -113,7 +113,7 @@ export function ContactProvider({ children }: { children: ReactNode }) {
       const contactsStorage = JSON.parse(storage)
 
       if (contactsStorage.length > 0) {
-        setContacts(JSON.parse(storage))
+        setContacts(contactsStorage)
         setIsLoading(false)
         return
       }
