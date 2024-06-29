@@ -139,7 +139,7 @@ export function ContactForm({ contactData, onSubmit }: IContactForm) {
             </FormGroup>
 
             <FormGroup error={errors.birthday?.message}>
-              <Label htmlFor="message">Birthday</Label>
+              <Label htmlFor="birthday">Birthday</Label>
 
               <Controller
                 control={control}
