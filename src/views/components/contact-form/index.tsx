@@ -19,6 +19,7 @@ import {
 import { Spinner } from '../ui/spinner'
 
 import { FormGroup } from './form-group'
+import { languages } from './languages'
 
 const contactFormSchema = z.object({
   firstName: z.string().min(1, { message: 'First name is required' }),
@@ -26,7 +27,7 @@ const contactFormSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address' }),
   birthday: z.string().date('Please enter a valid date'),
   gender: z.enum(['M', 'F']),
-  language: z.string(),
+  language: z.string().min(1, { message: 'Please select a language' }),
 })
 
 type TContactFormSchema = z.infer<typeof contactFormSchema>
@@ -155,11 +156,25 @@ export function ContactForm() {
           </div>
 
           <FormGroup error={errors.language?.message}>
-            <Label htmlFor="message">Language</Label>
-            <Input
-              id="language"
-              hasError={!!errors.language?.message}
-              {...register('language')}
+            <Label htmlFor="language">Language</Label>
+            <Controller
+              control={control}
+              name="language"
+              defaultValue={languages[0]}
+              render={({ field: { value, onChange } }) => (
+                <Select value={value} onValueChange={onChange}>
+                  <SelectTrigger id="language">
+                    <SelectValue placeholder={languages[0]} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {languages.map((language) => (
+                      <SelectItem key={language} value={language}>
+                        {language}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
             />
           </FormGroup>
 
