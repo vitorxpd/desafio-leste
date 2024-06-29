@@ -9,6 +9,13 @@ import { Button } from '../ui/button'
 import { Card, CardContent } from '../ui/card'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select'
 import { Spinner } from '../ui/spinner'
 
 import { FormGroup } from './form-group'
@@ -18,7 +25,7 @@ const contactFormSchema = z.object({
   lastName: z.string().min(1, { message: 'Last name is required' }),
   email: z.string().email({ message: 'Please enter a valid email address' }),
   birthday: z.string().date('Please enter a valid date'),
-  gender: z.enum(['f', 'm']),
+  gender: z.enum(['M', 'F']),
   language: z.string(),
 })
 
@@ -107,11 +114,23 @@ export function ContactForm() {
 
           <div className="flex gap-2">
             <FormGroup error={errors.gender?.message}>
-              <Label htmlFor="message">Gender</Label>
-              <Input
-                id="gender"
-                hasError={!!errors.gender?.message}
-                {...register('gender')}
+              <Label htmlFor="gender">Gender</Label>
+
+              <Controller
+                control={control}
+                name="gender"
+                defaultValue="M"
+                render={({ field: { value, onChange } }) => (
+                  <Select value={value} onValueChange={onChange}>
+                    <SelectTrigger id="gender">
+                      <SelectValue placeholder="Male" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="M">Male</SelectItem>
+                      <SelectItem value="F">Female</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
               />
             </FormGroup>
 
@@ -121,6 +140,7 @@ export function ContactForm() {
               <Controller
                 control={control}
                 name="birthday"
+                defaultValue=""
                 render={({ field: { value, onChange } }) => (
                   <Input
                     id="birthday"

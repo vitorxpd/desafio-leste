@@ -7,7 +7,7 @@ interface IFormGroupProps {
 
 export function FormGroup({ error, children }: IFormGroupProps) {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-1 flex-col gap-2">
       {children}
       {error && <span className="text-sm text-red-400">{error}</span>}
     </div>
