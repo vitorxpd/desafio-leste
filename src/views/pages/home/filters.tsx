@@ -43,7 +43,7 @@ export function Filters({ params, onSelect, onClear }: IFiltersProps) {
               onValueChange={(value) => onSelect('gender', value)}
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a Gender" />
+                <SelectValue placeholder="Select Gender" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="M">Male</SelectItem>
@@ -58,7 +58,7 @@ export function Filters({ params, onSelect, onClear }: IFiltersProps) {
               onValueChange={(value) => onSelect('language', value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select a Language" />
+                <SelectValue placeholder="Select Language" />
               </SelectTrigger>
               <SelectContent>
                 {languages.map((language) => (
@@ -76,7 +76,7 @@ export function Filters({ params, onSelect, onClear }: IFiltersProps) {
               onValueChange={(value) => onSelect('age', value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select a Age" />
+                <SelectValue placeholder="Select Age" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="0-10">0 to 10 years old</SelectItem>
@@ -97,7 +97,7 @@ export function Filters({ params, onSelect, onClear }: IFiltersProps) {
               onValueChange={(value) => onSelect('birthday', value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select a Month" />
+                <SelectValue placeholder="Select Month" />
               </SelectTrigger>
               <SelectContent>
                 {months.map((month) => (
