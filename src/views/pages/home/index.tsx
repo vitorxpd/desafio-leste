@@ -108,7 +108,7 @@ export function Home() {
   return (
     <>
       <div>
-        <section className="mx-auto mb-8 flex items-center justify-between">
+        <section className="mx-auto mb-8 flex w-[320px] items-center justify-between sm:w-auto">
           <h1 className="text-3xl font-bold text-primary-green">Contacts</h1>
 
           <Button
@@ -120,7 +120,7 @@ export function Home() {
           </Button>
         </section>
 
-        <section className="mb-4">
+        <section className="mx-auto mb-4 w-[320px] sm:w-auto">
           <Filters
             key={filterParams.size}
             params={filterParams}
