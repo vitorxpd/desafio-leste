@@ -41,7 +41,6 @@ export function EditContact() {
         </Button>
 
         <h1 className="text-center text-2xl font-bold">
-          Edit Contact -{' '}
           {isLoading ? (
             <Spinner className="ml-1 inline h-6 w-6" />
           ) : (
