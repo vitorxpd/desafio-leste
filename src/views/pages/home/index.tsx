@@ -126,11 +126,13 @@ export function Home() {
         </section>
 
         <section className="mx-auto mb-4 w-[320px] sm:w-auto">
-          <div className="mb-4 flex items-center justify-end">
-            <Button className="w-32" onClick={handleToggleFilters}>
-              {filtersIsVisible ? 'Hide Filters' : 'Show Filters'}
-            </Button>
-          </div>
+          {isMobile && (
+            <div className="mb-4 flex items-center justify-end">
+              <Button className="w-32" onClick={handleToggleFilters}>
+                {filtersIsVisible ? 'Hide Filters' : 'Show Filters'}
+              </Button>
+            </div>
+          )}
 
           {filtersIsVisible && (
             <Filters
