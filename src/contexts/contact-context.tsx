@@ -23,6 +23,7 @@ export interface IContact {
 interface IContactContext {
   contacts: IContact[]
   addContact: (contact: TContactFormSchema) => void
+  editContact: (contactId: number, contact: TContactFormSchema) => void
   removeContact: (contactId: number) => void
 }
 
@@ -53,6 +54,21 @@ export function ContactProvider({ children }: { children: ReactNode }) {
     [contacts],
   )
 
+  const editContact = useCallback(
+    (contactId: number, contact: TContactFormSchema) => {
+      setContacts((state) =>
+        state.map((stateContact) => {
+          if (stateContact.id === contactId) {
+            return { ...stateContact, ...contact }
+          }
+
+          return stateContact
+        }),
+      )
+    },
+    [],
+  )
+
   const removeContact = useCallback(
     (contactId: number) => {
       const filteredContacts = contacts.filter(
@@ -81,7 +97,9 @@ export function ContactProvider({ children }: { children: ReactNode }) {
   }, [])
 
   return (
-    <ContactContext.Provider value={{ contacts, addContact, removeContact }}>
+    <ContactContext.Provider
+      value={{ contacts, addContact, editContact, removeContact }}
+    >
       {children}
     </ContactContext.Provider>
   )

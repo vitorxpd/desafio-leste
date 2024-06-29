@@ -4,26 +4,29 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import { IContact, useContact } from '@/contexts/contact-context'
 
-import { ContactForm } from '../components/contact-form'
+import { ContactForm, TContactFormSchema } from '../components/contact-form'
 import { Button } from '../components/ui/button'
 
 export function EditContact() {
-  const [currentContact, setCurrentContact] = useState<IContact | undefined>(
-    undefined,
-  )
+  const [currentContact, setCurrentContact] = useState<
+    IContact | null | undefined
+  >(null)
 
   const navigate = useNavigate()
 
   const { id } = useParams()
 
-  const { contacts } = useContact()
+  const { contacts, editContact } = useContact()
 
   useEffect(() => {
     const contact = contacts.find((contact) => contact.id === Number(id))
     setCurrentContact(contact)
   }, [contacts, id])
 
-  function handleSubmit() {}
+  function handleSubmit(data: TContactFormSchema) {
+    editContact(Number(id), data)
+    setCurrentContact(null)
+  }
 
   if (!currentContact) {
     return null
