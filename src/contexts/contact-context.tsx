@@ -1,10 +1,13 @@
 import {
   createContext,
   ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useState,
 } from 'react'
+
+import { TContactFormSchema } from '@/views/components/contact-form'
 
 export interface IContact {
   avatar: string
@@ -19,12 +22,35 @@ export interface IContact {
 
 interface IContactContext {
   contacts: IContact[]
+  addContact: (contact: TContactFormSchema) => void
 }
 
 export const ContactContext = createContext({} as IContactContext)
 
 export function ContactProvider({ children }: { children: ReactNode }) {
   const [contacts, setContacts] = useState<IContact[]>([])
+
+  const addContact = useCallback(
+    (contact: TContactFormSchema) => {
+      const { birthday, email, first_name, gender, language, last_name } =
+        contact
+
+      setContacts((state) => [
+        ...state,
+        {
+          id: contacts.length + 1,
+          avatar: '',
+          birthday,
+          email,
+          first_name,
+          gender,
+          language,
+          last_name,
+        },
+      ])
+    },
+    [contacts],
+  )
 
   useEffect(() => {
     const _storageKey = '@desafio-leste-1.0.0'
@@ -44,7 +70,7 @@ export function ContactProvider({ children }: { children: ReactNode }) {
   }, [])
 
   return (
-    <ContactContext.Provider value={{ contacts }}>
+    <ContactContext.Provider value={{ contacts, addContact }}>
       {children}
     </ContactContext.Provider>
   )

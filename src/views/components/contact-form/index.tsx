@@ -22,15 +22,15 @@ import { FormGroup } from './form-group'
 import { languages } from './languages'
 
 const contactFormSchema = z.object({
-  firstName: z.string().min(1, { message: 'First name is required' }),
-  lastName: z.string().min(1, { message: 'Last name is required' }),
+  first_name: z.string().min(1, { message: 'First name is required' }),
+  last_name: z.string().min(1, { message: 'Last name is required' }),
   email: z.string().email({ message: 'Please enter a valid email address' }),
   birthday: z.string().date('Please enter a valid date'),
   gender: z.enum(['M', 'F']),
   language: z.string().min(1, { message: 'Please select a language' }),
 })
 
-type TContactFormSchema = z.infer<typeof contactFormSchema>
+export type TContactFormSchema = z.infer<typeof contactFormSchema>
 
 interface IContactForm {
   contactData?: IContact
@@ -43,11 +43,11 @@ export function ContactForm({ contactData, onSubmit }: IContactForm) {
       resolver: zodResolver(contactFormSchema),
       mode: 'onChange',
       defaultValues: {
-        firstName: contactData?.first_name,
-        lastName: contactData?.last_name,
+        first_name: contactData?.first_name,
+        last_name: contactData?.last_name,
         email: contactData?.email,
-        gender: contactData?.gender,
-        birthday: contactData?.birthday,
+        gender: contactData?.gender ?? 'M',
+        birthday: contactData?.birthday ?? '',
         language: contactData?.language,
       },
     })
@@ -88,21 +88,21 @@ export function ContactForm({ contactData, onSubmit }: IContactForm) {
           onSubmit={handleSubmit(submitForm)}
         >
           <div className="flex gap-2">
-            <FormGroup error={errors.firstName?.message}>
+            <FormGroup error={errors.first_name?.message}>
               <Label htmlFor="first-name">First Name</Label>
               <Input
                 id="first-name"
-                hasError={!!errors.firstName?.message}
-                {...register('firstName')}
+                hasError={!!errors.first_name?.message}
+                {...register('first_name')}
               />
             </FormGroup>
 
-            <FormGroup error={errors.lastName?.message}>
+            <FormGroup error={errors.last_name?.message}>
               <Label htmlFor="last-name">Last Name</Label>
               <Input
                 id="last-name"
-                hasError={!!errors.lastName?.message}
-                {...register('lastName')}
+                hasError={!!errors.last_name?.message}
+                {...register('last_name')}
               />
             </FormGroup>
           </div>
