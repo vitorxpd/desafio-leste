@@ -10,8 +10,9 @@ import { RemoveModal } from './remove-modal'
 
 export function Home() {
   const [removeModalIsOpen, setRemoveModalIsOpen] = useState(false)
+  const [removeContactId, setRemoveContactId] = useState<number | null>(null)
 
-  const { contacts } = useContact()
+  const { contacts, removeContact } = useContact()
 
   const navigate = useNavigate()
 
@@ -21,6 +22,18 @@ export function Home() {
 
   function handleCloseRemoveModal() {
     setRemoveModalIsOpen(false)
+  }
+
+  function handleSetRemoveContactId(contactId: number) {
+    setRemoveContactId(contactId)
+  }
+
+  function handleRemoveContact() {
+    if (!removeContactId) {
+      return
+    }
+
+    removeContact(removeContactId)
   }
 
   return (
@@ -40,6 +53,7 @@ export function Home() {
               <ContactCard
                 key={contact.id}
                 contact={contact}
+                onRemoveContactId={handleSetRemoveContactId}
                 onOpenRemoveModal={handleOpenRemoveModal}
               />
             ))}
@@ -49,7 +63,8 @@ export function Home() {
 
       <RemoveModal
         open={removeModalIsOpen}
-        onCloseRemoveModal={handleCloseRemoveModal}
+        onClose={handleCloseRemoveModal}
+        onRemove={handleRemoveContact}
       />
     </>
   )

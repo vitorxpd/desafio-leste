@@ -11,10 +11,11 @@ import {
 
 interface IRemoveModal {
   open: boolean
-  onCloseRemoveModal: () => void
+  onClose: () => void
+  onRemove: () => void
 }
 
-export function RemoveModal({ open, onCloseRemoveModal }: IRemoveModal) {
+export function RemoveModal({ open, onClose, onRemove }: IRemoveModal) {
   return (
     <AlertDialog open={open}>
       <AlertDialogContent>
@@ -26,10 +27,18 @@ export function RemoveModal({ open, onCloseRemoveModal }: IRemoveModal) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <Button variant="outline" onClick={onCloseRemoveModal}>
+          <Button variant="outline" onClick={onClose}>
             Cancel
           </Button>
-          <Button variant="destructive">Remove</Button>
+          <Button
+            variant="destructive"
+            onClick={() => {
+              onRemove()
+              onClose()
+            }}
+          >
+            Remove
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

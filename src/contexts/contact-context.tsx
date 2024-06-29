@@ -23,6 +23,7 @@ export interface IContact {
 interface IContactContext {
   contacts: IContact[]
   addContact: (contact: TContactFormSchema) => void
+  removeContact: (contactId: number) => void
 }
 
 export const ContactContext = createContext({} as IContactContext)
@@ -52,6 +53,16 @@ export function ContactProvider({ children }: { children: ReactNode }) {
     [contacts],
   )
 
+  const removeContact = useCallback(
+    (contactId: number) => {
+      const filteredContacts = contacts.filter(
+        (contact) => contact.id !== contactId,
+      )
+      setContacts(filteredContacts)
+    },
+    [contacts],
+  )
+
   useEffect(() => {
     const _storageKey = '@desafio-leste-1.0.0'
     const storage = localStorage.getItem(_storageKey)
@@ -70,7 +81,7 @@ export function ContactProvider({ children }: { children: ReactNode }) {
   }, [])
 
   return (
-    <ContactContext.Provider value={{ contacts, addContact }}>
+    <ContactContext.Provider value={{ contacts, addContact, removeContact }}>
       {children}
     </ContactContext.Provider>
   )

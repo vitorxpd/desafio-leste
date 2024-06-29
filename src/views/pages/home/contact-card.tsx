@@ -14,14 +14,24 @@ import {
 
 interface IContactCardProps {
   contact: IContact
+  onRemoveContactId: (contactId: number) => void
   onOpenRemoveModal: () => void
 }
 
-export function ContactCard({ contact, onOpenRemoveModal }: IContactCardProps) {
+export function ContactCard({
+  contact,
+  onRemoveContactId,
+  onOpenRemoveModal,
+}: IContactCardProps) {
   const navigate = useNavigate()
 
-  function handleEditContact() {
+  function handleNavigateToEditContact() {
     navigate(`/edit-contact/${contact.id}`)
+  }
+
+  function handleOpenRemoveModal() {
+    onRemoveContactId(contact.id)
+    onOpenRemoveModal()
   }
 
   return (
@@ -57,10 +67,10 @@ export function ContactCard({ contact, onOpenRemoveModal }: IContactCardProps) {
       </CardContent>
 
       <CardFooter className="flex justify-end gap-2">
-        <Button variant="outline" onClick={handleEditContact}>
+        <Button variant="outline" onClick={handleNavigateToEditContact}>
           Edit
         </Button>
-        <Button variant="destructive" onClick={onOpenRemoveModal}>
+        <Button variant="destructive" onClick={handleOpenRemoveModal}>
           Remove
         </Button>
       </CardFooter>
