@@ -6,6 +6,7 @@ import { IContact, useContact } from '@/contexts/contact-context'
 
 import { ContactForm, TContactFormSchema } from '../components/contact-form'
 import { Button } from '../components/ui/button'
+import { Spinner } from '../components/ui/spinner'
 
 export function EditContact() {
   const [currentContact, setCurrentContact] = useState<
@@ -16,7 +17,7 @@ export function EditContact() {
 
   const { id } = useParams()
 
-  const { contacts, editContact } = useContact()
+  const { contacts, isLoading, editContact } = useContact()
 
   useEffect(() => {
     const contact = contacts.find((contact) => contact.id === Number(id))
@@ -40,12 +41,24 @@ export function EditContact() {
         </Button>
 
         <h1 className="text-center text-2xl font-bold">
-          Edit Contact - {currentContact?.first_name}{' '}
-          {currentContact?.last_name}
+          Edit Contact -{' '}
+          {isLoading ? (
+            <Spinner className="ml-1 inline h-6 w-6" />
+          ) : (
+            `${currentContact?.first_name} ${currentContact?.last_name}`
+          )}
         </h1>
       </div>
 
-      <ContactForm contactData={currentContact} onSubmit={handleSubmit} />
+      {isLoading && (
+        <div className="mx-auto mt-32 w-fit">
+          <Spinner className="h-16 w-16" />
+        </div>
+      )}
+
+      {!isLoading && (
+        <ContactForm contactData={currentContact} onSubmit={handleSubmit} />
+      )}
     </section>
   )
 }

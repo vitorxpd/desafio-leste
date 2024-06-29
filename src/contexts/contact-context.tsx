@@ -22,6 +22,7 @@ export interface IContact {
 
 interface IContactContext {
   contacts: IContact[]
+  isLoading: boolean
   addContact: (contact: TContactFormSchema) => void
   editContact: (contactId: number, contact: TContactFormSchema) => void
   removeContact: (contactId: number) => void
@@ -31,9 +32,12 @@ export const ContactContext = createContext({} as IContactContext)
 
 export function ContactProvider({ children }: { children: ReactNode }) {
   const [contacts, setContacts] = useState<IContact[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   const addContact = useCallback(
     (contact: TContactFormSchema) => {
+      setIsLoading(true)
+
       const { birthday, email, first_name, gender, language, last_name } =
         contact
 
@@ -50,12 +54,16 @@ export function ContactProvider({ children }: { children: ReactNode }) {
           last_name,
         },
       ])
+
+      setIsLoading(false)
     },
     [contacts],
   )
 
   const editContact = useCallback(
     (contactId: number, contact: TContactFormSchema) => {
+      setIsLoading(true)
+
       setContacts((state) =>
         state.map((stateContact) => {
           if (stateContact.id === contactId) {
@@ -65,26 +73,34 @@ export function ContactProvider({ children }: { children: ReactNode }) {
           return stateContact
         }),
       )
+
+      setIsLoading(false)
     },
     [],
   )
 
   const removeContact = useCallback(
     (contactId: number) => {
+      setIsLoading(true)
+
       const filteredContacts = contacts.filter(
         (contact) => contact.id !== contactId,
       )
       setContacts(filteredContacts)
+      setIsLoading(false)
     },
     [contacts],
   )
 
   useEffect(() => {
+    setIsLoading(true)
+
     const _storageKey = '@desafio-leste-1.0.0'
     const storage = localStorage.getItem(_storageKey)
 
     if (storage) {
       setContacts(JSON.parse(storage))
+      setIsLoading(false)
       return
     }
 
@@ -94,11 +110,13 @@ export function ContactProvider({ children }: { children: ReactNode }) {
         setContacts(data)
         localStorage.setItem(_storageKey, JSON.stringify(data))
       })
+
+    setIsLoading(false)
   }, [])
 
   return (
     <ContactContext.Provider
-      value={{ contacts, addContact, editContact, removeContact }}
+      value={{ contacts, isLoading, addContact, editContact, removeContact }}
     >
       {children}
     </ContactContext.Provider>
