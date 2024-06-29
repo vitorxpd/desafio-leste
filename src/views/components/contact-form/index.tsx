@@ -1,8 +1,7 @@
-'use client'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check } from 'lucide-react'
-import { useForm } from 'react-hook-form'
+import { ChangeEvent } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -11,29 +10,49 @@ import { Card, CardContent } from '../ui/card'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { Spinner } from '../ui/spinner'
-import { Textarea } from '../ui/textarea'
 
 import { FormGroup } from './form-group'
 
 const contactFormSchema = z.object({
-  name: z.string().min(1, { message: 'Name is required' }),
+  firstName: z.string().min(1, { message: 'First name is required' }),
+  lastName: z.string().min(1, { message: 'Last name is required' }),
   email: z.string().email({ message: 'Please enter a valid email address' }),
-  message: z
-    .string()
-    .min(10, { message: 'Message must be at least 10 characters long' })
-    .max(100, { message: 'Message must be at most 100 characters long' }),
+  birthday: z.string().date('Please enter a valid date'),
+  gender: z.enum(['f', 'm']),
+  language: z.string(),
 })
 
 type TContactFormSchema = z.infer<typeof contactFormSchema>
 
 export function ContactForm() {
-  const { formState, register, handleSubmit, reset } =
+  const { formState, control, register, handleSubmit } =
     useForm<TContactFormSchema>({
       resolver: zodResolver(contactFormSchema),
       mode: 'onChange',
     })
 
   const { errors, isSubmitting } = formState
+
+  function handleChangeBirthday(
+    event: ChangeEvent<HTMLInputElement>,
+    onChange: (...event: any[]) => void,
+  ) {
+    let newValue = event.target.value.replace(/\D/g, '')
+
+    if (newValue.length > 8) {
+      newValue = newValue.slice(0, 8)
+    }
+
+    if (newValue.length > 4) {
+      newValue = `${newValue.slice(0, 4)}-${newValue.slice(4)}`
+    }
+
+    if (newValue.length > 7) {
+      newValue = `${newValue.slice(0, 7)}-${newValue.slice(7)}`
+    }
+
+    onChange(newValue)
+  }
 
   async function submitForm(data: TContactFormSchema) {
     // eslint-disable-next-line no-console
@@ -46,7 +65,7 @@ export function ContactForm() {
       className: 'gap-2',
     })
 
-    reset()
+    // reset()
   }
 
   return (
@@ -56,14 +75,25 @@ export function ContactForm() {
           className="flex flex-col gap-4"
           onSubmit={handleSubmit(submitForm)}
         >
-          <FormGroup error={errors.name?.message}>
-            <Label htmlFor="name">Name</Label>
-            <Input
-              id="name"
-              hasError={!!errors.name?.message}
-              {...register('name')}
-            />
-          </FormGroup>
+          <div className="flex gap-2">
+            <FormGroup error={errors.firstName?.message}>
+              <Label htmlFor="first-name">First Name</Label>
+              <Input
+                id="first-name"
+                hasError={!!errors.firstName?.message}
+                {...register('firstName')}
+              />
+            </FormGroup>
+
+            <FormGroup error={errors.lastName?.message}>
+              <Label htmlFor="last-name">Last Name</Label>
+              <Input
+                id="last-name"
+                hasError={!!errors.lastName?.message}
+                {...register('lastName')}
+              />
+            </FormGroup>
+          </div>
 
           <FormGroup error={errors.email?.message}>
             <Label htmlFor="email">Email</Label>
@@ -75,13 +105,41 @@ export function ContactForm() {
             />
           </FormGroup>
 
-          <FormGroup error={errors.message?.message}>
-            <Label htmlFor="message">Message</Label>
-            <Textarea
-              id="message"
-              className="h-[90px] resize-none"
-              hasError={!!errors.message?.message}
-              {...register('message')}
+          <div className="flex gap-2">
+            <FormGroup error={errors.gender?.message}>
+              <Label htmlFor="message">Gender</Label>
+              <Input
+                id="gender"
+                hasError={!!errors.gender?.message}
+                {...register('gender')}
+              />
+            </FormGroup>
+
+            <FormGroup error={errors.birthday?.message}>
+              <Label htmlFor="message">Birthday</Label>
+
+              <Controller
+                control={control}
+                name="birthday"
+                render={({ field: { value, onChange } }) => (
+                  <Input
+                    id="birthday"
+                    placeholder="0000-00-00"
+                    hasError={!!errors.birthday?.message}
+                    value={value}
+                    onChange={(event) => handleChangeBirthday(event, onChange)}
+                  />
+                )}
+              />
+            </FormGroup>
+          </div>
+
+          <FormGroup error={errors.language?.message}>
+            <Label htmlFor="message">Language</Label>
+            <Input
+              id="language"
+              hasError={!!errors.language?.message}
+              {...register('language')}
             />
           </FormGroup>
 
