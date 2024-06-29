@@ -137,7 +137,7 @@ export function Home() {
         </section>
 
         {contacts.length === 0 && (
-          <div className="mx-auto mt-32 flex w-fit flex-col items-center gap-4">
+          <div className="mx-auto mt-32 flex w-fit flex-col items-center gap-4 text-center">
             <Contact className="h-16 w-16 text-muted-foreground" />
             <h2 className="text-2xl font-bold">No Contacts Found</h2>
             <p className="text-muted-foreground">

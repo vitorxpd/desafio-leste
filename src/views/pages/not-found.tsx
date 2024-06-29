@@ -6,7 +6,7 @@ export function NotFound() {
   const navigate = useNavigate()
 
   return (
-    <div className="mx-auto mt-32 flex w-fit flex-col items-center gap-4">
+    <div className="mx-auto mt-32 flex w-fit flex-col items-center gap-4 text-center">
       <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
         404 - Page Not Found
       </h1>
