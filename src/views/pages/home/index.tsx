@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useContact } from '@/contexts/contact-context'
-import { calculateAge, months } from '@/lib/utils'
+import { calculateAge, isMobile, months } from '@/lib/utils'
 import { Spinner } from '@/views/components/ui/spinner'
 
 import { Button } from '../../components/ui/button'
@@ -15,6 +15,11 @@ export function Home() {
   const [removeModalIsOpen, setRemoveModalIsOpen] = useState(false)
   const [removeContactId, setRemoveContactId] = useState<number | null>(null)
   const [filterParams, setFilterParams] = useSearchParams()
+  const [filtersIsVisible, setFiltersIsVisible] = useState(!isMobile)
+
+  function handleToggleFilters() {
+    setFiltersIsVisible(!filtersIsVisible)
+  }
 
   const { contacts, isLoading, removeContact } = useContact()
 
@@ -121,12 +126,20 @@ export function Home() {
         </section>
 
         <section className="mx-auto mb-4 w-[320px] sm:w-auto">
-          <Filters
-            key={filterParams.size}
-            params={filterParams}
-            onSelect={handleSelectFilter}
-            onClear={handleClearFilters}
-          />
+          <div className="mb-4 flex items-center justify-end">
+            <Button className="w-32" onClick={handleToggleFilters}>
+              {filtersIsVisible ? 'Hide Filters' : 'Show Filters'}
+            </Button>
+          </div>
+
+          {filtersIsVisible && (
+            <Filters
+              key={filterParams.size}
+              params={filterParams}
+              onSelect={handleSelectFilter}
+              onClear={handleClearFilters}
+            />
+          )}
         </section>
 
         {isLoading && (
