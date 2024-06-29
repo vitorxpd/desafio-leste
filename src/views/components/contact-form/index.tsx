@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Check } from 'lucide-react'
 import { ChangeEvent } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { z } from 'zod'
+
+import { IContact } from '@/contexts/contact-context'
 
 import { Button } from '../ui/button'
 import { Card, CardContent } from '../ui/card'
@@ -32,11 +32,24 @@ const contactFormSchema = z.object({
 
 type TContactFormSchema = z.infer<typeof contactFormSchema>
 
-export function ContactForm() {
-  const { formState, control, register, handleSubmit } =
+interface IContactForm {
+  contactData?: IContact
+  onSubmit: (formData: TContactFormSchema) => void
+}
+
+export function ContactForm({ contactData, onSubmit }: IContactForm) {
+  const { formState, control, register, handleSubmit, reset } =
     useForm<TContactFormSchema>({
       resolver: zodResolver(contactFormSchema),
       mode: 'onChange',
+      defaultValues: {
+        firstName: contactData?.first_name,
+        lastName: contactData?.last_name,
+        email: contactData?.email,
+        gender: contactData?.gender,
+        birthday: contactData?.birthday,
+        language: contactData?.language,
+      },
     })
 
   const { errors, isSubmitting } = formState
@@ -62,18 +75,9 @@ export function ContactForm() {
     onChange(newValue)
   }
 
-  async function submitForm(data: TContactFormSchema) {
-    // eslint-disable-next-line no-console
-    console.log({ data })
-
-    toast('Email Sent', {
-      description: 'Thank you for reaching out.',
-      icon: <Check color="green" />,
-      closeButton: true,
-      className: 'gap-2',
-    })
-
-    // reset()
+  async function submitForm(formData: TContactFormSchema) {
+    onSubmit(formData)
+    reset()
   }
 
   return (
@@ -120,7 +124,6 @@ export function ContactForm() {
               <Controller
                 control={control}
                 name="gender"
-                defaultValue="M"
                 render={({ field: { value, onChange } }) => (
                   <Select value={value} onValueChange={onChange}>
                     <SelectTrigger id="gender">
@@ -141,7 +144,6 @@ export function ContactForm() {
               <Controller
                 control={control}
                 name="birthday"
-                defaultValue=""
                 render={({ field: { value, onChange } }) => (
                   <Input
                     id="birthday"
@@ -160,7 +162,6 @@ export function ContactForm() {
             <Controller
               control={control}
               name="language"
-              defaultValue={languages[0]}
               render={({ field: { value, onChange } }) => (
                 <Select value={value} onValueChange={onChange}>
                   <SelectTrigger id="language">
@@ -178,8 +179,14 @@ export function ContactForm() {
             />
           </FormGroup>
 
-          <Button type="submit" disabled={!formState.isValid || isSubmitting}>
-            {isSubmitting ? <Spinner /> : 'Send message'}
+          <Button
+            variant="green"
+            type="submit"
+            disabled={!formState.isValid || isSubmitting}
+          >
+            {isSubmitting && <Spinner />}
+            {!isSubmitting && contactData && 'Save Contact'}
+            {!isSubmitting && !contactData && 'Add Contact'}
           </Button>
         </form>
       </CardContent>
