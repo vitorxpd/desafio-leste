@@ -18,7 +18,7 @@ interface IRemoveModal {
 export function RemoveModal({ open, onClose, onRemove }: IRemoveModal) {
   return (
     <AlertDialog open={open}>
-      <AlertDialogContent>
+      <AlertDialogContent className="w-[320px] sm:w-fit">
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -26,12 +26,14 @@ export function RemoveModal({ open, onClose, onRemove }: IRemoveModal) {
             and remove your data from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
+        <AlertDialogFooter className="gap-2">
           <Button variant="outline" onClick={onClose}>
             Cancel
           </Button>
+
           <Button
             variant="destructive"
+            className="!m-0"
             onClick={() => {
               onRemove()
               onClose()
