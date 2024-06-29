@@ -10,12 +10,14 @@ import { Button } from '../../components/ui/button'
 import { ContactCard } from './contact-card'
 import { Filters } from './filters'
 import { RemoveModal } from './remove-modal'
+import { StatisticsModal } from './statistics-modal'
 
 export function Home() {
   const [removeModalIsOpen, setRemoveModalIsOpen] = useState(false)
   const [removeContactId, setRemoveContactId] = useState<number | null>(null)
   const [filterParams, setFilterParams] = useSearchParams()
   const [filtersIsVisible, setFiltersIsVisible] = useState(!isMobile)
+  const [statisticsModalIsOpen, setStatisticsModalIsOpen] = useState(false)
 
   function handleToggleFilters() {
     setFiltersIsVisible(!filtersIsVisible)
@@ -73,6 +75,14 @@ export function Home() {
     return filteredContacts
   }
 
+  function handleOpenStatisticsModal() {
+    setStatisticsModalIsOpen(true)
+  }
+
+  function handleCloseStatisticsModal() {
+    setStatisticsModalIsOpen(false)
+  }
+
   function handleSelectFilter(type: string, value: string) {
     let prevFilters: { [key: string]: string } = {}
 
@@ -126,13 +136,17 @@ export function Home() {
         </section>
 
         <section className="mx-auto mb-4 w-[320px] sm:w-auto">
-          {isMobile && (
-            <div className="mb-4 flex items-center justify-end">
+          <div className="mb-4 flex items-center justify-between">
+            <Button className="w-32" onClick={handleOpenStatisticsModal}>
+              Show Statistics
+            </Button>
+
+            {isMobile && (
               <Button className="w-32" onClick={handleToggleFilters}>
                 {filtersIsVisible ? 'Hide Filters' : 'Show Filters'}
               </Button>
-            </div>
-          )}
+            )}
+          </div>
 
           {filtersIsVisible && (
             <Filters
@@ -165,6 +179,11 @@ export function Home() {
           </section>
         )}
       </div>
+
+      <StatisticsModal
+        open={statisticsModalIsOpen}
+        onClose={handleCloseStatisticsModal}
+      />
 
       <RemoveModal
         open={removeModalIsOpen}
