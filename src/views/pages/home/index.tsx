@@ -111,7 +111,11 @@ export function Home() {
         <section className="mx-auto mb-8 flex items-center justify-between">
           <h1 className="text-3xl font-bold text-primary-green">Contacts</h1>
 
-          <Button variant="green" onClick={() => navigate('/new-contact')}>
+          <Button
+            variant="green"
+            onClick={() => navigate('/new-contact')}
+            className="w-32"
+          >
             Add Contact
           </Button>
         </section>

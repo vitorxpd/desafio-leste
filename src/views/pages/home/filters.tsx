@@ -29,7 +29,7 @@ export function Filters({ params, onSelect, onClear }: IFiltersProps) {
     <>
       {isMobile && (
         <div className="mb-4 flex items-center justify-end">
-          <Button onClick={handleToggleFilters}>
+          <Button className="w-32" onClick={handleToggleFilters}>
             {filtersIsVisible ? 'Hide Filters' : 'Show Filters'}
           </Button>
         </div>
