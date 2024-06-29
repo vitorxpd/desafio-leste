@@ -4,6 +4,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { IContact } from '@/contexts/contact-context'
+import { languages } from '@/lib/utils'
 
 import { Button } from '../ui/button'
 import { Card, CardContent } from '../ui/card'
@@ -19,7 +20,6 @@ import {
 import { Spinner } from '../ui/spinner'
 
 import { FormGroup } from './form-group'
-import { languages } from './languages'
 
 const contactFormSchema = z.object({
   first_name: z.string().min(1, { message: 'First name is required' }),
