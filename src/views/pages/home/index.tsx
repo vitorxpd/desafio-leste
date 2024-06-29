@@ -137,12 +137,20 @@ export function Home() {
 
         <section className="mx-auto mb-4 w-[320px] sm:w-auto">
           <div className="mb-4 flex items-center justify-between">
-            <Button className="w-32" onClick={handleOpenStatisticsModal}>
+            <Button
+              className="w-32"
+              onClick={handleOpenStatisticsModal}
+              disabled={contacts.length === 0 || isLoading}
+            >
               Show Statistics
             </Button>
 
             {isMobile && (
-              <Button className="w-32" onClick={handleToggleFilters}>
+              <Button
+                className="w-32"
+                onClick={handleToggleFilters}
+                disabled={isLoading}
+              >
                 {filtersIsVisible ? 'Hide Filters' : 'Show Filters'}
               </Button>
             )}
