@@ -34,8 +34,8 @@ export function EditContact() {
   }
 
   return (
-    <section className="mx-auto max-w-[400px]">
-      <div className="mb-4 flex items-center gap-2">
+    <div className="mx-auto max-w-[400px]">
+      <section className="mb-4 flex items-center gap-2">
         <Button variant="ghost" className="p-0" onClick={() => navigate('/')}>
           <CircleChevronLeft />
         </Button>
@@ -48,7 +48,7 @@ export function EditContact() {
             `${currentContact?.first_name} ${currentContact?.last_name}`
           )}
         </h1>
-      </div>
+      </section>
 
       {isLoading && (
         <div className="mx-auto mt-32 w-fit">
@@ -59,6 +59,6 @@ export function EditContact() {
       {!isLoading && (
         <ContactForm contactData={currentContact} onSubmit={handleSubmit} />
       )}
-    </section>
+    </div>
   )
 }

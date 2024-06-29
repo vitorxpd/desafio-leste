@@ -17,14 +17,14 @@ export function NewContact() {
   }
 
   return (
-    <section className="mx-auto max-w-[400px]">
-      <div className="mb-4 flex items-center gap-2">
+    <div className="mx-auto max-w-[400px]">
+      <section className="mb-4 flex items-center gap-2">
         <Button variant="ghost" className="p-0" onClick={() => navigate('/')}>
           <CircleChevronLeft />
         </Button>
 
         <h1 className="text-center text-2xl font-bold">Add Contact</h1>
-      </div>
+      </section>
 
       {isLoading && (
         <div className="mx-auto mt-32 w-fit">
@@ -33,6 +33,6 @@ export function NewContact() {
       )}
 
       {!isLoading && <ContactForm onSubmit={handleSubmit} />}
-    </section>
+    </div>
   )
 }

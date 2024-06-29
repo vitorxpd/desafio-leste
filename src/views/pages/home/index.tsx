@@ -40,7 +40,7 @@ export function Home() {
   return (
     <>
       <div>
-        <section className="mx-auto mb-8 flex items-center justify-between px-8">
+        <section className="mx-auto mb-8 flex items-center justify-between">
           <h1 className="text-3xl font-bold text-primary-green">Contacts</h1>
 
           <Button variant="green" onClick={() => navigate('/new-contact')}>
@@ -55,7 +55,7 @@ export function Home() {
         )}
 
         {!isLoading && (
-          <section className="mx-auto px-8">
+          <section className="mx-auto">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {contacts.map((contact) => (
                 <ContactCard
