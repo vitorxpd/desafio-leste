@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useContact } from '@/contexts/contact-context'
+import { calculateAge, months } from '@/lib/utils'
 import { Spinner } from '@/views/components/ui/spinner'
 
 import { Button } from '../../components/ui/button'
@@ -14,6 +15,58 @@ export function Home() {
   const [removeModalIsOpen, setRemoveModalIsOpen] = useState(false)
   const [removeContactId, setRemoveContactId] = useState<number | null>(null)
   const [filterParams, setFilterParams] = useSearchParams()
+
+  const { contacts, isLoading, removeContact } = useContact()
+
+  const navigate = useNavigate()
+
+  function getFilteredContacts() {
+    const gender = filterParams.get('gender')
+    const language = filterParams.get('language')
+    const age = filterParams.get('age')
+    const birthday = filterParams.get('birthday')
+
+    let filteredContacts = contacts
+
+    if (gender) {
+      filteredContacts = filteredContacts.filter(
+        (contact) => contact.gender === gender,
+      )
+    }
+
+    if (language) {
+      filteredContacts = filteredContacts.filter(
+        (contact) => contact.language === language,
+      )
+    }
+
+    if (age) {
+      const minRange = Number(age.split('-')[0])
+      const maxRange = Number(age.split('-')[1])
+
+      filteredContacts = filteredContacts.filter((contact) => {
+        const age = calculateAge(contact.birthday)
+        const isInRange = age >= minRange && age <= maxRange
+
+        if (isInRange) {
+          return contact
+        }
+      })
+    }
+
+    if (birthday) {
+      filteredContacts = filteredContacts.filter((contact) => {
+        const monthIndex = new Date(contact.birthday).getMonth()
+        const monthName = months[monthIndex]
+
+        if (monthName === birthday) {
+          return contact
+        }
+      })
+    }
+
+    return filteredContacts
+  }
 
   function handleSelectFilter(type: string, value: string) {
     let prevFilters: { [key: string]: string } = {}
@@ -31,10 +84,6 @@ export function Home() {
   function handleClearFilters() {
     setFilterParams(undefined)
   }
-
-  const { contacts, isLoading, removeContact } = useContact()
-
-  const navigate = useNavigate()
 
   function handleOpenRemoveModal() {
     setRemoveModalIsOpen(true)
@@ -85,7 +134,7 @@ export function Home() {
         {!isLoading && (
           <section className="mx-auto">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {contacts.map((contact) => (
+              {getFilteredContacts().map((contact) => (
                 <ContactCard
                   key={contact.id}
                   contact={contact}
