@@ -34,6 +34,8 @@ export function ContactProvider({ children }: { children: ReactNode }) {
   const [contacts, setContacts] = useState<IContact[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
+  const storageKey = '@desafio-leste-1.0.0'
+
   const addContact = useCallback(
     (contact: TContactFormSchema) => {
       setIsLoading(true)
@@ -41,21 +43,20 @@ export function ContactProvider({ children }: { children: ReactNode }) {
       const { birthday, email, first_name, gender, language, last_name } =
         contact
 
-      setContacts((state) => [
-        ...state,
-        {
-          id: contacts.length + 1,
-          avatar: '',
-          birthday,
-          email,
-          first_name,
-          gender,
-          language,
-          last_name,
-        },
-      ])
+      const data = {
+        id: contacts.length + 1,
+        avatar: '',
+        birthday,
+        email,
+        first_name,
+        gender,
+        language,
+        last_name,
+      }
 
+      setContacts((state) => [...state, data])
       setIsLoading(false)
+      localStorage.setItem(storageKey, JSON.stringify([...contacts, data]))
     },
     [contacts],
   )
@@ -63,6 +64,14 @@ export function ContactProvider({ children }: { children: ReactNode }) {
   const editContact = useCallback(
     (contactId: number, contact: TContactFormSchema) => {
       setIsLoading(true)
+
+      const newContacts = contacts.map((newContact) => {
+        if (newContact.id === contactId) {
+          return { ...newContact, ...contact }
+        }
+
+        return newContact
+      })
 
       setContacts((state) =>
         state.map((stateContact) => {
@@ -75,8 +84,10 @@ export function ContactProvider({ children }: { children: ReactNode }) {
       )
 
       setIsLoading(false)
+
+      localStorage.setItem(storageKey, JSON.stringify(newContacts))
     },
-    [],
+    [contacts],
   )
 
   const removeContact = useCallback(
@@ -88,6 +99,7 @@ export function ContactProvider({ children }: { children: ReactNode }) {
       )
       setContacts(filteredContacts)
       setIsLoading(false)
+      localStorage.setItem(storageKey, JSON.stringify(filteredContacts))
     },
     [contacts],
   )
@@ -95,23 +107,47 @@ export function ContactProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setIsLoading(true)
 
-    const _storageKey = '@desafio-leste-1.0.0'
-    const storage = localStorage.getItem(_storageKey)
+    const storage = localStorage.getItem(storageKey)
 
     if (storage) {
-      setContacts(JSON.parse(storage))
-      setIsLoading(false)
-      return
+      const contactsStorage = JSON.parse(storage)
+
+      if (contactsStorage.length > 0) {
+        setContacts(JSON.parse(storage))
+        setIsLoading(false)
+        return
+      }
     }
 
-    fetch('https://my.api.mockaroo.com/lestetelecom/test.json?key=f55c4060')
-      .then((response) => response.json())
-      .then((data) => {
-        setContacts(data)
-        localStorage.setItem(_storageKey, JSON.stringify(data))
-      })
+    const controller = new AbortController()
 
+    async function loadContacts() {
+      try {
+        const response = await fetch(
+          'https://my.api.mockaroo.com/lestetelecom/test.json?key=f55c4060',
+          {
+            signal: controller.signal,
+          },
+        )
+
+        if (!response.ok) {
+          throw new Error()
+        }
+
+        const data = await response.json()
+        setContacts(data)
+        localStorage.setItem(storageKey, JSON.stringify(data))
+      } catch (error) {
+        throw new Error('Error fetching contacts')
+      }
+    }
+
+    loadContacts()
     setIsLoading(false)
+
+    return () => {
+      controller.abort()
+    }
   }, [])
 
   return (
