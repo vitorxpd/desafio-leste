@@ -19,6 +19,8 @@ export function calculateAge(birthDay: string) {
   return age
 }
 
+export const isMobile = window.innerWidth < 768
+
 export const months = [
   'January',
   'February',
