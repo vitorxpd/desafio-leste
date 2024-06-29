@@ -1,6 +1,7 @@
-import { CircleChevronLeft } from 'lucide-react'
+import { Check, CircleChevronLeft } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'sonner'
 
 import { IContact, useContact } from '@/contexts/contact-context'
 
@@ -19,15 +20,27 @@ export function EditContact() {
 
   const { contacts, isLoading, editContact } = useContact()
 
-  useEffect(() => {
-    const contact = contacts.find((contact) => contact.id === Number(id))
-    setCurrentContact(contact)
-  }, [contacts, id])
+  function handleNavigateToHome() {
+    navigate('/')
+  }
 
   function handleSubmit(data: TContactFormSchema) {
     editContact(Number(id), data)
     setCurrentContact(null)
+    handleNavigateToHome()
+    toast('Contact Edited Successfully', {
+      description: 'Your changes to the contact have been successfully saved.',
+      closeButton: true,
+      duration: 3000,
+      icon: <Check color="green" />,
+      className: 'gap-2',
+    })
   }
+
+  useEffect(() => {
+    const contact = contacts.find((contact) => contact.id === Number(id))
+    setCurrentContact(contact)
+  }, [contacts, id])
 
   if (!currentContact) {
     return null
@@ -36,7 +49,7 @@ export function EditContact() {
   return (
     <div className="mx-auto max-w-[400px]">
       <section className="mb-4 flex items-center gap-2">
-        <Button variant="ghost" className="p-0" onClick={() => navigate('/')}>
+        <Button variant="ghost" className="p-0" onClick={handleNavigateToHome}>
           <CircleChevronLeft />
         </Button>
 
