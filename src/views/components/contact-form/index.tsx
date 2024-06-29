@@ -48,7 +48,7 @@ export function ContactForm({ contactData, onSubmit }: IContactForm) {
         email: contactData?.email,
         gender: contactData?.gender ?? 'M',
         birthday: contactData?.birthday ?? '',
-        language: contactData?.language,
+        language: contactData?.language ?? languages[0],
       },
     })
 
