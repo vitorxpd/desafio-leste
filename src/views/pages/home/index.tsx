@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useContact } from '@/contexts/contact-context'
 import { Spinner } from '@/views/components/ui/spinner'
@@ -7,11 +7,30 @@ import { Spinner } from '@/views/components/ui/spinner'
 import { Button } from '../../components/ui/button'
 
 import { ContactCard } from './contact-card'
+import { Filters } from './filters'
 import { RemoveModal } from './remove-modal'
 
 export function Home() {
   const [removeModalIsOpen, setRemoveModalIsOpen] = useState(false)
   const [removeContactId, setRemoveContactId] = useState<number | null>(null)
+  const [filterParams, setFilterParams] = useSearchParams()
+
+  function handleSelectFilter(type: string, value: string) {
+    let prevFilters: { [key: string]: string } = {}
+
+    filterParams.forEach((prevValue, prevKey) => {
+      prevFilters = {
+        ...prevFilters,
+        [prevKey]: prevValue,
+      }
+    })
+
+    setFilterParams({ ...prevFilters, [type]: value })
+  }
+
+  function handleClearFilters() {
+    setFilterParams(undefined)
+  }
 
   const { contacts, isLoading, removeContact } = useContact()
 
@@ -46,6 +65,15 @@ export function Home() {
           <Button variant="green" onClick={() => navigate('/new-contact')}>
             Add Contact
           </Button>
+        </section>
+
+        <section className="mb-4">
+          <Filters
+            key={filterParams.size}
+            params={filterParams}
+            onSelect={handleSelectFilter}
+            onClear={handleClearFilters}
+          />
         </section>
 
         {isLoading && (
