@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react'
 
-import { TContactFormSchema } from '@/views/components/contact-form'
+import { generateId } from '@/lib/utils'
 
 export interface IContact {
   avatar: string
@@ -23,8 +23,8 @@ export interface IContact {
 interface IContactContext {
   contacts: IContact[]
   isLoading: boolean
-  addContact: (contact: TContactFormSchema) => void
-  editContact: (contactId: number, contact: TContactFormSchema) => void
+  addContact: (contact: IContact) => void
+  editContact: (contactId: number, contact: IContact) => void
   removeContact: (contactId: number) => void
 }
 
@@ -37,14 +37,14 @@ export function ContactProvider({ children }: { children: ReactNode }) {
   const storageKey = '@desafio-leste-1.0.0'
 
   const addContact = useCallback(
-    (contact: TContactFormSchema) => {
+    (contact: IContact) => {
       setIsLoading(true)
 
       const { birthday, email, first_name, gender, language, last_name } =
         contact
 
       const data = {
-        id: contacts.length + 1,
+        id: generateId(),
         avatar: '',
         birthday,
         email,
@@ -62,7 +62,7 @@ export function ContactProvider({ children }: { children: ReactNode }) {
   )
 
   const editContact = useCallback(
-    (contactId: number, contact: TContactFormSchema) => {
+    (contactId: number, contact: IContact) => {
       setIsLoading(true)
 
       const newContacts = contacts.map((newContact) => {
