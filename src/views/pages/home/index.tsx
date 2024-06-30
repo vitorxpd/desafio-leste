@@ -119,6 +119,7 @@ export function Home() {
     }
 
     removeContact(removeContactId)
+    setRemoveContactId(null)
   }
 
   return (
