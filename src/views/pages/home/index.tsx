@@ -8,17 +8,16 @@ import { Spinner } from '@/views/components/ui/spinner'
 
 import { Button } from '../../components/ui/button'
 
-import { ContactCard } from './contact-card'
-import { Filters } from './filters'
+import { ContactCard } from './components/contact-card'
+import { Filters } from './components/filters'
+import { RemoveModal } from './components/remove-modal'
+import { StatisticsModal } from './components/statistics-modal'
 import { useFilters } from './hooks/useFilters'
-import { RemoveModal } from './remove-modal'
-import { StatisticsModal } from './statistics-modal'
 
 export function Home() {
+  const [statisticsModalIsOpen, setStatisticsModalIsOpen] = useState(false)
   const [removeModalIsOpen, setRemoveModalIsOpen] = useState(false)
   const [removeContactId, setRemoveContactId] = useState<number | null>(null)
-
-  const [statisticsModalIsOpen, setStatisticsModalIsOpen] = useState(false)
 
   const { contacts, isLoading, removeContact } = useContact()
 

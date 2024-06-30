@@ -1,16 +1,19 @@
 import { useNavigate } from 'react-router-dom'
 
 import { IContact } from '@/contexts/contact-context'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/views/components/ui/avatar'
 import { Button } from '@/views/components/ui/button'
-
-import { Avatar, AvatarFallback, AvatarImage } from '../../components/ui/avatar'
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '../../components/ui/card'
+} from '@/views/components/ui/card'
 
 interface IContactCardProps {
   contact: IContact
