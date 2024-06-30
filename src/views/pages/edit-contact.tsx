@@ -68,7 +68,7 @@ export function EditContact() {
       </section>
 
       {isLoading && (
-        <div className="mx-auto mt-32 w-fit">
+        <div className="mx-auto mt-40 w-fit">
           <Spinner className="h-16 w-16" />
         </div>
       )}
