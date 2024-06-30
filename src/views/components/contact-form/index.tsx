@@ -24,6 +24,10 @@ import { FormGroup } from './form-group'
 const contactFormSchema = z.object({
   first_name: z.string().min(1, { message: 'First name is required' }),
   last_name: z.string().min(1, { message: 'Last name is required' }),
+  avatar: z
+    .string()
+    .url({ message: 'Please enter a valid URL' })
+    .or(z.literal('')),
   email: z.string().email({ message: 'Please enter a valid email address' }),
   birthday: z.string().date('Please enter a valid date'),
   gender: z.enum(['M', 'F']),
@@ -45,6 +49,7 @@ export function ContactForm({ contactData, onSubmit }: IContactForm) {
       defaultValues: {
         first_name: contactData?.first_name,
         last_name: contactData?.last_name,
+        avatar: contactData?.avatar,
         email: contactData?.email,
         gender: contactData?.gender ?? 'M',
         birthday: contactData?.birthday ?? '',
@@ -114,6 +119,16 @@ export function ContactForm({ contactData, onSubmit }: IContactForm) {
               id="email"
               hasError={!!errors.email?.message}
               {...register('email')}
+            />
+          </FormGroup>
+
+          <FormGroup error={errors.avatar?.message}>
+            <Label htmlFor="avatar">Avatar</Label>
+            <Input
+              id="avatar"
+              placeholder="Optional"
+              hasError={!!errors.avatar?.message}
+              {...register('avatar')}
             />
           </FormGroup>
 
