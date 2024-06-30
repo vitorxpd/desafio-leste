@@ -1,78 +1,37 @@
 import { Contact } from 'lucide-react'
-import { useMemo, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { useContact } from '@/contexts/contact-context'
-import { calculateAge, isMobile, months } from '@/lib/utils'
+import { isMobile } from '@/lib/utils'
 import { Spinner } from '@/views/components/ui/spinner'
 
 import { Button } from '../../components/ui/button'
 
 import { ContactCard } from './contact-card'
 import { Filters } from './filters'
+import { useFilters } from './hooks/useFilters'
 import { RemoveModal } from './remove-modal'
 import { StatisticsModal } from './statistics-modal'
 
 export function Home() {
   const [removeModalIsOpen, setRemoveModalIsOpen] = useState(false)
   const [removeContactId, setRemoveContactId] = useState<number | null>(null)
-  const [filterParams, setFilterParams] = useSearchParams()
-  const [filtersIsVisible, setFiltersIsVisible] = useState(!isMobile)
-  const [statisticsModalIsOpen, setStatisticsModalIsOpen] = useState(false)
 
-  function handleToggleFilters() {
-    setFiltersIsVisible(!filtersIsVisible)
-  }
+  const [statisticsModalIsOpen, setStatisticsModalIsOpen] = useState(false)
 
   const { contacts, isLoading, removeContact } = useContact()
 
+  const {
+    filterParams,
+    filteredContacts,
+    filtersIsVisible,
+    handleClearFilters,
+    handleSelectFilter,
+    handleToggleFilters,
+  } = useFilters()
+
   const navigate = useNavigate()
-
-  const filteredContacts = useMemo(() => {
-    const gender = filterParams.get('gender')
-    const language = filterParams.get('language')
-    const age = filterParams.get('age')
-    const birthday = filterParams.get('birthday')
-
-    let newContacts = contacts
-
-    if (gender) {
-      newContacts = newContacts.filter((contact) => contact.gender === gender)
-    }
-
-    if (language) {
-      newContacts = newContacts.filter(
-        (contact) => contact.language === language,
-      )
-    }
-
-    if (age) {
-      const minRange = Number(age.split('-')[0])
-      const maxRange = Number(age.split('-')[1])
-
-      newContacts = newContacts.filter((contact) => {
-        const age = calculateAge(contact.birthday)
-        const isInRange = age >= minRange && age <= maxRange
-
-        if (isInRange) {
-          return contact
-        }
-      })
-    }
-
-    if (birthday) {
-      newContacts = newContacts.filter((contact) => {
-        const monthIndex = new Date(contact.birthday).getMonth()
-        const monthName = months[monthIndex]
-
-        if (monthName === birthday) {
-          return contact
-        }
-      })
-    }
-
-    return newContacts
-  }, [contacts, filterParams])
 
   function handleOpenStatisticsModal() {
     setStatisticsModalIsOpen(true)
@@ -80,23 +39,6 @@ export function Home() {
 
   function handleCloseStatisticsModal() {
     setStatisticsModalIsOpen(false)
-  }
-
-  function handleSelectFilter(type: string, value: string) {
-    let prevFilters: { [key: string]: string } = {}
-
-    filterParams.forEach((prevValue, prevKey) => {
-      prevFilters = {
-        ...prevFilters,
-        [prevKey]: prevValue,
-      }
-    })
-
-    setFilterParams({ ...prevFilters, [type]: value })
-  }
-
-  function handleClearFilters() {
-    setFilterParams(undefined)
   }
 
   function handleOpenRemoveModal() {
