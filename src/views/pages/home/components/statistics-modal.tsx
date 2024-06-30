@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { useContact } from '@/contexts/contact-context'
+import { useContacts } from '@/contexts/contact-context'
 import { languages } from '@/lib/utils'
 import {
   Card,
@@ -23,7 +23,7 @@ interface IStatisticsModalProps {
 }
 
 export function StatisticsModal({ open, onClose }: IStatisticsModalProps) {
-  const { contacts } = useContact()
+  const { contacts } = useContacts()
 
   const genderCount = useMemo(() => {
     const maleCount = contacts.filter(
@@ -112,7 +112,7 @@ export function StatisticsModal({ open, onClose }: IStatisticsModalProps) {
             <CardDescription>Top languages used on the site.</CardDescription>
           </CardHeader>
 
-          <CardContent className="no-scrollbar flex h-full flex-col gap-4 overflow-scroll">
+          <CardContent className="flex h-full flex-col gap-4 overflow-scroll no-scrollbar">
             {languageCount
               .sort((a, b) => b.count - a.count)
               .map((language) => (

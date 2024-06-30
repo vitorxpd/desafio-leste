@@ -20,7 +20,7 @@ export interface IContact {
   last_name: string
 }
 
-interface IContactContext {
+interface IContactsContext {
   contacts: IContact[]
   isLoading: boolean
   addContact: (contact: Omit<IContact, 'id'>) => void
@@ -28,9 +28,9 @@ interface IContactContext {
   removeContact: (contactId: number) => void
 }
 
-export const ContactContext = createContext({} as IContactContext)
+export const ContactsContext = createContext({} as IContactsContext)
 
-export function ContactProvider({ children }: { children: ReactNode }) {
+export function ContactsProvider({ children }: { children: ReactNode }) {
   const [contacts, setContacts] = useState<IContact[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -158,14 +158,14 @@ export function ContactProvider({ children }: { children: ReactNode }) {
   }, [])
 
   return (
-    <ContactContext.Provider
+    <ContactsContext.Provider
       value={{ contacts, isLoading, addContact, editContact, removeContact }}
     >
       {children}
-    </ContactContext.Provider>
+    </ContactsContext.Provider>
   )
 }
 
-export function useContact() {
-  return useContext(ContactContext)
+export function useContacts() {
+  return useContext(ContactsContext)
 }

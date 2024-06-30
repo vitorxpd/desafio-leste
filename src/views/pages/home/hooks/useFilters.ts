@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-import { useContact } from '@/contexts/contact-context'
+import { useContacts } from '@/contexts/contact-context'
 import { calculateAge, isMobile, months } from '@/lib/utils'
 
 export function useFilters() {
   const [filterParams, setFilterParams] = useSearchParams()
   const [filtersIsVisible, setFiltersIsVisible] = useState(!isMobile)
 
-  const { contacts } = useContact()
+  const { contacts } = useContacts()
 
   const handleToggleFilters = useCallback(() => {
     setFiltersIsVisible((state) => !state)

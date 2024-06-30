@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 
-import { IContact, useContact } from '@/contexts/contact-context'
+import { IContact, useContacts } from '@/contexts/contact-context'
 
 import { ContactForm, TContactFormSchema } from '../components/contact-form'
 import { Button } from '../components/ui/button'
@@ -18,7 +18,7 @@ export function EditContact() {
 
   const { id } = useParams()
 
-  const { contacts, isLoading, editContact } = useContact()
+  const { contacts, isLoading, editContact } = useContacts()
 
   const navigateToHome = useCallback(() => {
     navigate('/')

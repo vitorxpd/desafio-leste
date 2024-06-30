@@ -2,7 +2,7 @@ import { Check, CircleChevronLeft } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
-import { useContact } from '@/contexts/contact-context'
+import { useContacts } from '@/contexts/contact-context'
 
 import { ContactForm, TContactFormSchema } from '../components/contact-form'
 import { Button } from '../components/ui/button'
@@ -11,7 +11,7 @@ import { Spinner } from '../components/ui/spinner'
 export function NewContact() {
   const navigate = useNavigate()
 
-  const { isLoading, addContact } = useContact()
+  const { isLoading, addContact } = useContacts()
 
   function handleSubmit(data: TContactFormSchema) {
     addContact(data)

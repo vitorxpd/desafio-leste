@@ -2,7 +2,7 @@ import { Contact } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useContact } from '@/contexts/contact-context'
+import { useContacts } from '@/contexts/contact-context'
 import { isMobile } from '@/lib/utils'
 import { Spinner } from '@/views/components/ui/spinner'
 
@@ -19,7 +19,7 @@ export function Home() {
   const [removeModalIsOpen, setRemoveModalIsOpen] = useState(false)
   const [removeContactId, setRemoveContactId] = useState<number | null>(null)
 
-  const { contacts, isLoading, removeContact } = useContact()
+  const { contacts, isLoading, removeContact } = useContacts()
 
   const {
     filterParams,

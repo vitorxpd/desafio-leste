@@ -1,4 +1,4 @@
-import { ContactProvider } from './contexts/contact-context'
+import { ContactsProvider } from './contexts/contact-context'
 import { Router } from './router'
 import { Toaster } from './views/components/ui/sonner'
 
@@ -6,9 +6,9 @@ import './globals.css'
 
 export function App() {
   return (
-    <ContactProvider>
+    <ContactsProvider>
       <Router />
       <Toaster />
-    </ContactProvider>
+    </ContactsProvider>
   )
 }
