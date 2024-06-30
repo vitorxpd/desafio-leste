@@ -5,8 +5,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/views/components/ui/alert-dialog'
-import { Button } from '@/views/components/ui/button'
+} from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
 
 interface IRemoveModal {
   open: boolean

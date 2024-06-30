@@ -1,21 +1,21 @@
 import { useMemo } from 'react'
 
-import { useContacts } from '@/contexts/contacts-context'
-import { languages } from '@/lib/utils'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/views/components/ui/card'
+} from '@/components/ui/card'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/views/components/ui/dialog'
+} from '@/components/ui/dialog'
+import { useContacts } from '@/contexts/contacts-context'
+import { languages } from '@/lib/utils'
 
 interface IStatisticsModalProps {
   open: boolean

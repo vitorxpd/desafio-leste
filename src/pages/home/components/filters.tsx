@@ -1,12 +1,12 @@
-import { languages, months } from '@/lib/utils'
-import { Button } from '@/views/components/ui/button'
+import { Button } from '@/components/ui/button'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/views/components/ui/select'
+} from '@/components/ui/select'
+import { languages, months } from '@/lib/utils'
 
 import { FilterGroup } from './filter-group'
 

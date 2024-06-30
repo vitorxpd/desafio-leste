@@ -10,7 +10,7 @@ export function Spinner({ className }: ISpinnerProps) {
       <svg
         aria-hidden="true"
         className={cn(
-          'animate-rotation h-5 w-5 fill-primary text-gray-200 dark:text-gray-600',
+          'h-5 w-5 animate-rotation fill-primary text-gray-200 dark:text-gray-600',
           className,
         )}
         viewBox="0 0 100 101"
