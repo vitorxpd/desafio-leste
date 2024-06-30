@@ -23,8 +23,11 @@ export interface IContact {
 interface IContactContext {
   contacts: IContact[]
   isLoading: boolean
-  addContact: (contact: IContact) => void
-  editContact: (contactId: number, contact: IContact) => void
+  addContact: (contact: Omit<IContact, 'id' | 'avatar'>) => void
+  editContact: (
+    contactId: number,
+    contact: Omit<IContact, 'id' | 'avatar'>,
+  ) => void
   removeContact: (contactId: number) => void
 }
 
@@ -37,9 +40,8 @@ export function ContactProvider({ children }: { children: ReactNode }) {
   const storageKey = '@desafio-leste-1.0.0'
 
   const addContact = useCallback(
-    (contact: IContact) => {
+    (contact: Omit<IContact, 'id' | 'avatar'>) => {
       setIsLoading(true)
-
       const { birthday, email, first_name, gender, language, last_name } =
         contact
 
@@ -62,7 +64,7 @@ export function ContactProvider({ children }: { children: ReactNode }) {
   )
 
   const editContact = useCallback(
-    (contactId: number, contact: IContact) => {
+    (contactId: number, contact: Omit<IContact, 'id' | 'avatar'>) => {
       setIsLoading(true)
 
       const newContacts = contacts.map((newContact) => {
