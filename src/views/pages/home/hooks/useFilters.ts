@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { useContact } from '@/contexts/contact-context'
@@ -79,6 +79,12 @@ export function useFilters() {
 
     return newContacts
   }, [contacts, filterParams])
+
+  useEffect(() => {
+    if (contacts.length === 0) {
+      handleClearFilters()
+    }
+  }, [contacts, handleClearFilters])
 
   return {
     filterParams,
