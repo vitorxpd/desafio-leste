@@ -1,4 +1,3 @@
-import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
 import { useMemo } from 'react'
 
 import { useContact } from '@/contexts/contact-context'
@@ -10,7 +9,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/views/components/ui/card'
-import { Dialog, DialogContent } from '@/views/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/views/components/ui/dialog'
 
 interface IStatisticsModalProps {
   open: boolean
@@ -65,10 +70,10 @@ export function StatisticsModal({ open, onClose }: IStatisticsModalProps) {
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="flex h-full w-full max-w-full flex-col overflow-scroll pt-10 sm:h-[420px] sm:max-w-[640px] sm:flex-row sm:overflow-hidden">
-        <DialogTitle className="hidden">Statiscs</DialogTitle>
-        <DialogDescription className="hidden">
-          Gender and Language
-        </DialogDescription>
+        <DialogHeader className="hidden">
+          <DialogTitle>Statiscs</DialogTitle>
+          <DialogDescription>Gender and Language</DialogDescription>
+        </DialogHeader>
 
         <Card className="sm:w-1/2">
           <CardHeader>
@@ -99,15 +104,15 @@ export function StatisticsModal({ open, onClose }: IStatisticsModalProps) {
           </CardContent>
         </Card>
 
-        <Card className="sm:w-1/2">
+        <Card className="overflow-hidden sm:w-1/2">
           <CardHeader>
             <CardTitle className="text-2xl font-semibold">
               Language Statistics
             </CardTitle>
-
             <CardDescription>Top languages used on the site.</CardDescription>
           </CardHeader>
-          <CardContent className="flex flex-col gap-4 overflow-scroll sm:max-h-[246px]">
+
+          <CardContent className="no-scrollbar flex h-full flex-col gap-4 overflow-scroll">
             {languageCount
               .sort((a, b) => b.count - a.count)
               .map((language) => (
