@@ -99,6 +99,7 @@ export function ContactProvider({ children }: { children: ReactNode }) {
       const filteredContacts = contacts.filter(
         (contact) => contact.id !== contactId,
       )
+
       setContacts(filteredContacts)
       setIsLoading(false)
       localStorage.setItem(storageKey, JSON.stringify(filteredContacts))
