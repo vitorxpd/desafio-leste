@@ -87,6 +87,7 @@ export const languages = [
   'Finnish',
   'French',
   'Fulah',
+  'Gagauz',
   'Galician',
   'Ganda',
   'Georgian',
