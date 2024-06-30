@@ -144,8 +144,8 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
         const data = await response.json()
         setContacts(data)
         localStorage.setItem(storageKey, JSON.stringify(data))
-      } catch (error) {
-        throw new Error('Error fetching contacts')
+      } catch {
+        //
       }
     }
 
