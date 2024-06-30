@@ -2,7 +2,7 @@ import { Contact } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useContacts } from '@/contexts/contact-context'
+import { useContacts } from '@/contexts/contacts-context'
 import { isMobile } from '@/lib/utils'
 import { Spinner } from '@/views/components/ui/spinner'
 

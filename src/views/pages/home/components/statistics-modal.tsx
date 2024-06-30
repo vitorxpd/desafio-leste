@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { useContacts } from '@/contexts/contact-context'
+import { useContacts } from '@/contexts/contacts-context'
 import { languages } from '@/lib/utils'
 import {
   Card,

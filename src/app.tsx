@@ -1,4 +1,4 @@
-import { ContactsProvider } from './contexts/contact-context'
+import { ContactsProvider } from './contexts/contacts-context'
 import { Router } from './router'
 import { Toaster } from './views/components/ui/sonner'
 

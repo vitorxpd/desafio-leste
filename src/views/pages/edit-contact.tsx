@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 
-import { IContact, useContacts } from '@/contexts/contact-context'
+import { IContact, useContacts } from '@/contexts/contacts-context'
 
 import { ContactForm, TContactFormSchema } from '../components/contact-form'
 import { Button } from '../components/ui/button'

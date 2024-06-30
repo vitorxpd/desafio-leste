@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-import { useContacts } from '@/contexts/contact-context'
+import { useContacts } from '@/contexts/contacts-context'
 import { calculateAge, isMobile, months } from '@/lib/utils'
 
 export function useFilters() {

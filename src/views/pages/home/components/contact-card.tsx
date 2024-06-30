@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
-import { IContact } from '@/contexts/contact-context'
+import { IContact } from '@/contexts/contacts-context'
 import {
   Avatar,
   AvatarFallback,

@@ -2,7 +2,7 @@ import { Check, CircleChevronLeft } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
-import { useContacts } from '@/contexts/contact-context'
+import { useContacts } from '@/contexts/contacts-context'
 
 import { ContactForm, TContactFormSchema } from '../components/contact-form'
 import { Button } from '../components/ui/button'
