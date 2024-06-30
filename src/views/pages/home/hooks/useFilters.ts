@@ -68,7 +68,7 @@ export function useFilters() {
 
     if (birthday) {
       newContacts = newContacts.filter((contact) => {
-        const monthIndex = new Date(contact.birthday).getMonth()
+        const monthIndex = Number(contact.birthday.split('-')[1]) - 1
         const monthName = months[monthIndex]
 
         if (monthName === birthday) {
