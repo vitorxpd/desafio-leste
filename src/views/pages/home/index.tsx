@@ -34,16 +34,14 @@ export function Home() {
     const age = filterParams.get('age')
     const birthday = filterParams.get('birthday')
 
-    let filteredContacts = contacts
+    let newContacts = contacts
 
     if (gender) {
-      filteredContacts = filteredContacts.filter(
-        (contact) => contact.gender === gender,
-      )
+      newContacts = newContacts.filter((contact) => contact.gender === gender)
     }
 
     if (language) {
-      filteredContacts = filteredContacts.filter(
+      newContacts = newContacts.filter(
         (contact) => contact.language === language,
       )
     }
@@ -52,7 +50,7 @@ export function Home() {
       const minRange = Number(age.split('-')[0])
       const maxRange = Number(age.split('-')[1])
 
-      filteredContacts = filteredContacts.filter((contact) => {
+      newContacts = newContacts.filter((contact) => {
         const age = calculateAge(contact.birthday)
         const isInRange = age >= minRange && age <= maxRange
 
@@ -63,7 +61,7 @@ export function Home() {
     }
 
     if (birthday) {
-      filteredContacts = filteredContacts.filter((contact) => {
+      newContacts = newContacts.filter((contact) => {
         const monthIndex = new Date(contact.birthday).getMonth()
         const monthName = months[monthIndex]
 
@@ -73,7 +71,7 @@ export function Home() {
       })
     }
 
-    return filteredContacts
+    return newContacts
   }, [contacts, filterParams])
 
   function handleOpenStatisticsModal() {
