@@ -1,5 +1,5 @@
 import { Contact } from 'lucide-react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useContact } from '@/contexts/contact-context'
@@ -28,7 +28,7 @@ export function Home() {
 
   const navigate = useNavigate()
 
-  function getFilteredContacts() {
+  const filteredContacts = useMemo(() => {
     const gender = filterParams.get('gender')
     const language = filterParams.get('language')
     const age = filterParams.get('age')
@@ -74,7 +74,7 @@ export function Home() {
     }
 
     return filteredContacts
-  }
+  }, [contacts, filterParams])
 
   function handleOpenStatisticsModal() {
     setStatisticsModalIsOpen(true)
@@ -129,14 +129,53 @@ export function Home() {
 
           <Button
             variant="green"
-            onClick={() => navigate('/new-contact')}
             className="w-32"
+            disabled={isLoading}
+            onClick={() => navigate('/new-contact')}
           >
             Add Contact
           </Button>
         </section>
 
-        {contacts.length === 0 && (
+        <section className="mx-auto mb-4 w-[320px] sm:w-auto">
+          <div className="mb-4 flex items-center justify-between">
+            <Button
+              className="w-32"
+              onClick={handleOpenStatisticsModal}
+              disabled={contacts.length === 0 || isLoading}
+            >
+              Show Statistics
+            </Button>
+
+            {isMobile && (
+              <Button
+                className="w-32"
+                onClick={handleToggleFilters}
+                disabled={isLoading}
+              >
+                {filtersIsVisible ? 'Hide Filters' : 'Show Filters'}
+              </Button>
+            )}
+          </div>
+
+          {filtersIsVisible && (
+            <Filters
+              key={filterParams.size}
+              params={filterParams}
+              disabled={contacts.length === 0 || isLoading}
+              onSelect={handleSelectFilter}
+              onClear={handleClearFilters}
+            />
+          )}
+        </section>
+
+        {isLoading && (
+          <div className="mx-auto mt-40 w-fit">
+            <Spinner className="h-16 w-16" />
+          </div>
+        )}
+
+        {!isLoading && contacts.length === 0 && (
           <div className="mx-auto mt-32 flex w-fit flex-col items-center gap-4 text-center">
             <Contact className="h-16 w-16 text-muted-foreground" />
             <h2 className="text-2xl font-bold">No Contacts Found</h2>
@@ -146,60 +185,19 @@ export function Home() {
           </div>
         )}
 
-        {contacts.length > 0 && (
-          <>
-            <section className="mx-auto mb-4 w-[320px] sm:w-auto">
-              <div className="mb-4 flex items-center justify-between">
-                <Button
-                  className="w-32"
-                  onClick={handleOpenStatisticsModal}
-                  disabled={isLoading}
-                >
-                  Show Statistics
-                </Button>
-
-                {isMobile && (
-                  <Button
-                    className="w-32"
-                    onClick={handleToggleFilters}
-                    disabled={isLoading}
-                  >
-                    {filtersIsVisible ? 'Hide Filters' : 'Show Filters'}
-                  </Button>
-                )}
-              </div>
-
-              {filtersIsVisible && (
-                <Filters
-                  key={filterParams.size}
-                  params={filterParams}
-                  onSelect={handleSelectFilter}
-                  onClear={handleClearFilters}
+        {!isLoading && contacts.length > 0 && (
+          <section className="mx-auto">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {filteredContacts.map((contact) => (
+                <ContactCard
+                  key={contact.id}
+                  contact={contact}
+                  onRemoveContactId={handleSetRemoveContactId}
+                  onOpenRemoveModal={handleOpenRemoveModal}
                 />
-              )}
-            </section>
-
-            {isLoading && (
-              <div className="mx-auto mt-32 w-fit">
-                <Spinner className="h-16 w-16" />
-              </div>
-            )}
-
-            {!isLoading && (
-              <section className="mx-auto">
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                  {getFilteredContacts().map((contact) => (
-                    <ContactCard
-                      key={contact.id}
-                      contact={contact}
-                      onRemoveContactId={handleSetRemoveContactId}
-                      onOpenRemoveModal={handleOpenRemoveModal}
-                    />
-                  ))}
-                </div>
-              </section>
-            )}
-          </>
+              ))}
+            </div>
+          </section>
         )}
       </div>
 

@@ -12,16 +12,23 @@ import { FilterGroup } from './filter-group'
 
 interface IFiltersProps {
   params: URLSearchParams
+  disabled: boolean
   onSelect: (type: string, value: string) => void
   onClear: () => void
 }
 
-export function Filters({ params, onSelect, onClear }: IFiltersProps) {
+export function Filters({
+  params,
+  disabled,
+  onSelect,
+  onClear,
+}: IFiltersProps) {
   return (
     <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-end">
       <FilterGroup>
         <Select
           value={params.get('gender') ?? undefined}
+          disabled={disabled}
           onValueChange={(value) => onSelect('gender', value)}
         >
           <SelectTrigger className="w-full">
@@ -37,6 +44,7 @@ export function Filters({ params, onSelect, onClear }: IFiltersProps) {
       <FilterGroup>
         <Select
           value={params.get('language') ?? undefined}
+          disabled={disabled}
           onValueChange={(value) => onSelect('language', value)}
         >
           <SelectTrigger>
@@ -55,6 +63,7 @@ export function Filters({ params, onSelect, onClear }: IFiltersProps) {
       <FilterGroup>
         <Select
           value={params.get('age') ?? undefined}
+          disabled={disabled}
           onValueChange={(value) => onSelect('age', value)}
         >
           <SelectTrigger>
@@ -76,6 +85,7 @@ export function Filters({ params, onSelect, onClear }: IFiltersProps) {
       <FilterGroup>
         <Select
           value={params.get('birthday') ?? undefined}
+          disabled={disabled}
           onValueChange={(value) => onSelect('birthday', value)}
         >
           <SelectTrigger>
@@ -92,7 +102,7 @@ export function Filters({ params, onSelect, onClear }: IFiltersProps) {
       </FilterGroup>
 
       <FilterGroup>
-        <Button onClick={onClear} className="w-full">
+        <Button onClick={onClear} className="w-full" disabled={disabled}>
           Clear Filters
         </Button>
       </FilterGroup>
