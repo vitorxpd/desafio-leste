@@ -164,7 +164,7 @@ export function ContactForm({ contactData, onSubmit }: IContactForm) {
                   <Input
                     inputMode="numeric"
                     id="birthday"
-                    placeholder="0000-00-00"
+                    placeholder="YYYY-MM-DD"
                     hasError={!!errors.birthday?.message}
                     value={value}
                     onChange={(event) => handleChangeBirthday(event, onChange)}
