@@ -46,7 +46,7 @@ export function StatisticsModal({ open, onClose }: IStatisticsModalProps) {
   const languageCount = useMemo(() => {
     const totals = contacts.length
 
-    const resultado = languages.reduce(
+    const result = languages.reduce(
       (
         acc: { language: string; count: number; percentage: string }[],
         language,
@@ -64,7 +64,7 @@ export function StatisticsModal({ open, onClose }: IStatisticsModalProps) {
       [],
     )
 
-    return resultado
+    return result
   }, [contacts])
 
   return (
