@@ -104,7 +104,7 @@ export function StatisticsModal({ open, onClose }: IStatisticsModalProps) {
           </CardContent>
         </Card>
 
-        <Card className="overflow-hidden sm:w-1/2">
+        <Card className="flex flex-col overflow-hidden sm:w-1/2">
           <CardHeader>
             <CardTitle className="text-2xl font-semibold">
               Language Statistics
@@ -112,7 +112,7 @@ export function StatisticsModal({ open, onClose }: IStatisticsModalProps) {
             <CardDescription>Top languages used on the site.</CardDescription>
           </CardHeader>
 
-          <CardContent className="flex h-full flex-col gap-4 overflow-scroll no-scrollbar">
+          <CardContent className="flex flex-1 flex-col gap-4 overflow-scroll no-scrollbar">
             {languageCount
               .sort((a, b) => b.count - a.count)
               .map((language) => (
