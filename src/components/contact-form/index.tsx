@@ -125,6 +125,7 @@ export function ContactForm({ contactData, onSubmit }: IContactForm) {
           <FormGroup error={errors.avatar?.message}>
             <Label htmlFor="avatar">Avatar</Label>
             <Input
+              type="url"
               id="avatar"
               placeholder="Optional"
               hasError={!!errors.avatar?.message}
@@ -161,6 +162,7 @@ export function ContactForm({ contactData, onSubmit }: IContactForm) {
                 name="birthday"
                 render={({ field: { value, onChange } }) => (
                   <Input
+                    inputMode="numeric"
                     id="birthday"
                     placeholder="0000-00-00"
                     hasError={!!errors.birthday?.message}
