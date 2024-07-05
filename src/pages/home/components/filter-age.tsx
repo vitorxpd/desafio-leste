@@ -8,15 +8,15 @@ interface IFilterAge {
 }
 
 export function FilterAge({ params, onCommit }: IFilterAge) {
-  const [currentValue, setCurrentValue] = useState<number[]>([0, 100])
+  const [currentValue, setCurrentValue] = useState<number[]>(() => {
+    const ageParam = params.get('age') ?? undefined
 
-  const ageParam = params.get('age') ?? undefined
+    const ageParamSplit = ageParam?.split('-')
 
-  const ageParamSplit = ageParam?.split('-')
-
-  const defaultValue = ageParamSplit
-    ? [Number(ageParamSplit[0]), Number(ageParamSplit[1])]
-    : [0, 100]
+    return ageParamSplit
+      ? [Number(ageParamSplit[0]), Number(ageParamSplit[1])]
+      : [0, 100]
+  })
 
   function handleValueCommit(value: number[]) {
     setCurrentValue(value)
@@ -32,7 +32,7 @@ export function FilterAge({ params, onCommit }: IFilterAge) {
 
       <Slider
         className="w-full md:w-[120px]"
-        defaultValue={defaultValue}
+        defaultValue={currentValue}
         min={0}
         max={100}
         onValueCommit={handleValueCommit}
