@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Spinner } from '@/components/ui/spinner'
 import { useContacts } from '@/contexts/contacts-context'
-import { isMobile } from '@/lib/utils'
 
 import { ContactCard } from './components/contact-card'
 import { Filters } from './components/filters'
@@ -86,15 +85,13 @@ export function Home() {
               Show Statistics
             </Button>
 
-            {isMobile && (
-              <Button
-                className="w-32"
-                onClick={handleToggleFilters}
-                disabled={isLoading}
-              >
-                {filtersIsVisible ? 'Hide Filters' : 'Show Filters'}
-              </Button>
-            )}
+            <Button
+              className="w-32 md:hidden"
+              onClick={handleToggleFilters}
+              disabled={isLoading}
+            >
+              {filtersIsVisible ? 'Hide Filters' : 'Show Filters'}
+            </Button>
           </div>
 
           {filtersIsVisible && (
