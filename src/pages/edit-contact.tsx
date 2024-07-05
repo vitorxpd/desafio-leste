@@ -1,10 +1,10 @@
-import { Check, CircleChevronLeft } from 'lucide-react'
+import { CircleChevronLeft } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { toast } from 'sonner'
 
 import { ContactForm, TContactFormSchema } from '@/components/contact-form'
 import { Button } from '@/components/ui/button'
+import { toast } from '@/components/ui/sonner'
 import { Spinner } from '@/components/ui/spinner'
 import { IContact, useContacts } from '@/contexts/contacts-context'
 
@@ -27,12 +27,10 @@ export function EditContact() {
     editContact(Number(id), data)
     setCurrentContact(null)
     navigateToHome()
-    toast('Contact Edited Successfully', {
+    toast({
+      type: 'success',
+      title: 'Contact Edited Successfully',
       description: 'Your changes to the contact have been successfully saved.',
-      closeButton: true,
-      duration: 3000,
-      icon: <Check color="green" />,
-      className: 'gap-2',
     })
   }
 

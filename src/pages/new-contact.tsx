@@ -1,9 +1,9 @@
-import { Check, CircleChevronLeft } from 'lucide-react'
+import { CircleChevronLeft } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
 
 import { ContactForm, TContactFormSchema } from '@/components/contact-form'
 import { Button } from '@/components/ui/button'
+import { toast } from '@/components/ui/sonner'
 import { Spinner } from '@/components/ui/spinner'
 import { useContacts } from '@/contexts/contacts-context'
 
@@ -14,12 +14,10 @@ export function NewContact() {
 
   function handleSubmit(data: TContactFormSchema) {
     addContact(data)
-    toast('Added Successfully', {
+    toast({
+      type: 'success',
+      title: 'Added Successfully',
       description: 'The new contact has been successfully added to your list.',
-      closeButton: true,
-      duration: 3000,
-      icon: <Check color="green" />,
-      className: 'gap-2 pointer-events-none',
     })
   }
 
