@@ -2,12 +2,12 @@ import { useState } from 'react'
 
 import { Slider } from '@/components/ui/slider'
 
-interface IFilterAge {
+interface IFilterAgeProps {
   params: URLSearchParams
   onCommit: (type: string, value: string) => void
 }
 
-export function FilterAge({ params, onCommit }: IFilterAge) {
+export function FilterAge({ params, onCommit }: IFilterAgeProps) {
   const [currentValue, setCurrentValue] = useState<number[]>(() => {
     const ageParam = params.get('age') ?? undefined
 
