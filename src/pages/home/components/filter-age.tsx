@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Slider } from '@/components/ui/slider'
 
@@ -8,7 +8,7 @@ interface IFilterAge {
 }
 
 export function FilterAge({ params, onCommit }: IFilterAge) {
-  const [currentValue, setCurrentValue] = useState<number[]>(() => {
+  const [value, setValue] = useState<number[]>(() => {
     const ageParam = params.get('age') ?? undefined
 
     const ageParamSplit = ageParam?.split('-')
@@ -18,13 +18,10 @@ export function FilterAge({ params, onCommit }: IFilterAge) {
       : [0, 100]
   })
 
-  function handleValueCommit(value: number[]) {
-    setCurrentValue(value)
+  function handleValueCommit(commitValue: number[]) {
+    onCommit('age', commitValue?.toString().replace(',', '-'))
+    setValue(commitValue)
   }
-
-  useEffect(() => {
-    onCommit('age', `${currentValue[0]}-${currentValue[1]}`)
-  }, [currentValue, onCommit])
 
   return (
     <div className="flex items-center gap-2">
@@ -32,14 +29,14 @@ export function FilterAge({ params, onCommit }: IFilterAge) {
 
       <Slider
         className="w-full md:w-[120px]"
-        defaultValue={currentValue}
+        defaultValue={value}
         min={0}
         max={100}
         onValueCommit={handleValueCommit}
       />
 
       <span>
-        {currentValue[0]}-{currentValue[1]}
+        {value[0]}-{value[1]}
       </span>
     </div>
   )
