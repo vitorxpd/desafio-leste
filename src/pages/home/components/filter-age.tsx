@@ -18,12 +18,12 @@ export function FilterAge({ params, onCommit }: IFilterAge) {
       : [0, 100]
   })
 
-  function handleValueCommit(value: number[]) {
-    onCommit('age', value.toString().replace(',', '-'))
-  }
-
   function handleChangeValue(value: number[]) {
     setCurrentValue(value)
+  }
+
+  function handleValueCommit(value: number[]) {
+    onCommit('age', value.toString().replace(',', '-'))
   }
 
   return (
