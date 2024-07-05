@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Slider } from '@/components/ui/slider'
 
@@ -20,8 +20,11 @@ export function FilterAge({ params, onCommit }: IFilterAge) {
 
   function handleValueCommit(value: number[]) {
     setCurrentValue(value)
-    onCommit('age', `${value[0]}-${value[1]}`)
   }
+
+  useEffect(() => {
+    onCommit('age', `${currentValue[0]}-${currentValue[1]}`)
+  }, [currentValue, onCommit])
 
   return (
     <div className="flex items-center gap-2">
