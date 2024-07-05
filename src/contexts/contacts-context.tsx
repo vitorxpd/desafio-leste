@@ -23,6 +23,7 @@ export interface IContact {
 interface IContactsContext {
   contacts: IContact[]
   isLoading: boolean
+  isFirstLoading: boolean
   addContact: (contact: Omit<IContact, 'id'>) => void
   editContact: (contactId: number, contact: Omit<IContact, 'id'>) => void
   removeContact: (contactId: number) => void
@@ -33,6 +34,7 @@ export const ContactsContext = createContext({} as IContactsContext)
 export function ContactsProvider({ children }: { children: ReactNode }) {
   const [contacts, setContacts] = useState<IContact[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isFirstLoading, setIsFirstLoading] = useState(true)
 
   const storageKey = '@desafio-leste-1.0.0'
 
@@ -143,6 +145,7 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
 
     loadContacts()
     setIsLoading(false)
+    setIsFirstLoading(false)
 
     return () => {
       controller.abort()
@@ -151,7 +154,14 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
 
   return (
     <ContactsContext.Provider
-      value={{ contacts, isLoading, addContact, editContact, removeContact }}
+      value={{
+        contacts,
+        isLoading,
+        isFirstLoading,
+        addContact,
+        editContact,
+        removeContact,
+      }}
     >
       {children}
     </ContactsContext.Provider>

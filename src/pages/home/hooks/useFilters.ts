@@ -8,7 +8,7 @@ export function useFilters() {
   const [filterParams, setFilterParams] = useSearchParams()
   const [filtersIsVisible, setFiltersIsVisible] = useState(!isMobile)
 
-  const { contacts } = useContacts()
+  const { contacts, isFirstLoading } = useContacts()
 
   const handleToggleFilters = useCallback(() => {
     setFiltersIsVisible((state) => !state)
@@ -81,10 +81,10 @@ export function useFilters() {
   }, [contacts, filterParams])
 
   useEffect(() => {
-    if (contacts.length === 0) {
+    if (contacts.length === 0 && !isFirstLoading) {
       handleClearFilters()
     }
-  }, [contacts, handleClearFilters])
+  }, [contacts, isFirstLoading, handleClearFilters])
 
   return {
     filterParams,
