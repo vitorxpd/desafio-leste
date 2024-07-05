@@ -26,10 +26,7 @@ export function StatisticsModal({ open, onClose }: IStatisticsModalProps) {
     <>
       {isMobile && (
         <Drawer open={open} onClose={onClose}>
-          <DrawerContent
-            className="max-h-[320px] overflow-auto no-scrollbar"
-            onInteractOutside={onClose}
-          >
+          <DrawerContent className="max-h-[320px]" onInteractOutside={onClose}>
             <DrawerHeader className="hidden">
               <DrawerTitle>Statiscs</DrawerTitle>
               <DrawerDescription>Gender and Language</DrawerDescription>
