@@ -1,13 +1,15 @@
 import { useState } from 'react'
 
 import { Slider } from '@/components/ui/slider'
+import { cn } from '@/lib/utils'
 
 interface IFilterAgeProps {
   params: URLSearchParams
+  disabled: boolean
   onCommit: (type: string, value: string) => void
 }
 
-export function FilterAge({ params, onCommit }: IFilterAgeProps) {
+export function FilterAge({ params, disabled, onCommit }: IFilterAgeProps) {
   const [currentValue, setCurrentValue] = useState<number[]>(() => {
     const ageParam = params.get('age') ?? undefined
 
@@ -27,7 +29,12 @@ export function FilterAge({ params, onCommit }: IFilterAgeProps) {
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div
+      className={cn(
+        'flex items-center gap-2',
+        disabled && 'pointer-events-none opacity-50',
+      )}
+    >
       <span>Age</span>
 
       <Slider
@@ -35,6 +42,7 @@ export function FilterAge({ params, onCommit }: IFilterAgeProps) {
         defaultValue={currentValue}
         min={0}
         max={100}
+        disabled={disabled}
         onValueChange={handleChangeValue}
         onValueCommit={handleValueCommit}
       />

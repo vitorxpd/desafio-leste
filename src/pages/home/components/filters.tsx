@@ -81,7 +81,7 @@ export function Filters({
       </FilterGroup>
 
       <FilterGroup className="md:w-fit md:max-w-none">
-        <FilterAge params={params} onCommit={onSelect} />
+        <FilterAge params={params} disabled={disabled} onCommit={onSelect} />
       </FilterGroup>
 
       <FilterGroup>
