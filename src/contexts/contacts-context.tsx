@@ -49,7 +49,7 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
         last_name,
       } = contact
 
-      const data = {
+      const newContact = {
         id: generateId(),
         avatar,
         birthday,
@@ -60,9 +60,11 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
         last_name,
       }
 
-      setContacts((state) => [...state, data])
+      const newContacts = [...contacts, newContact]
+
+      localStorage.setItem(storageKey, JSON.stringify(newContacts))
+      setContacts(newContacts)
       setIsLoading(false)
-      localStorage.setItem(storageKey, JSON.stringify([...contacts, data]))
     },
     [contacts],
   )
@@ -71,7 +73,7 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
     (contactId: number, contact: Omit<IContact, 'id'>) => {
       setIsLoading(true)
 
-      const newContacts = contacts.map((newContact) => {
+      const updatedContacts = contacts.map((newContact) => {
         if (newContact.id === contactId) {
           return { ...newContact, ...contact }
         }
@@ -79,19 +81,9 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
         return newContact
       })
 
-      setContacts((state) =>
-        state.map((stateContact) => {
-          if (stateContact.id === contactId) {
-            return { ...stateContact, ...contact }
-          }
-
-          return stateContact
-        }),
-      )
-
+      localStorage.setItem(storageKey, JSON.stringify(updatedContacts))
+      setContacts(updatedContacts)
       setIsLoading(false)
-
-      localStorage.setItem(storageKey, JSON.stringify(newContacts))
     },
     [contacts],
   )
@@ -104,9 +96,9 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
         (contact) => contact.id !== contactId,
       )
 
+      localStorage.setItem(storageKey, JSON.stringify(filteredContacts))
       setContacts(filteredContacts)
       setIsLoading(false)
-      localStorage.setItem(storageKey, JSON.stringify(filteredContacts))
     },
     [contacts],
   )
