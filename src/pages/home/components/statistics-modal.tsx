@@ -15,7 +15,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { useContacts } from '@/contexts/contacts-context'
-import { languages } from '@/lib/utils'
 
 interface IStatisticsModalProps {
   open: boolean
@@ -25,7 +24,7 @@ interface IStatisticsModalProps {
 export function StatisticsModal({ open, onClose }: IStatisticsModalProps) {
   const { contacts } = useContacts()
 
-  const genderCount = useMemo(() => {
+  const genderStatistics = useMemo(() => {
     const maleCount = contacts.filter(
       (contact) => contact.gender === 'M',
     ).length
@@ -43,28 +42,37 @@ export function StatisticsModal({ open, onClose }: IStatisticsModalProps) {
     ]
   }, [contacts])
 
-  const languageCount = useMemo(() => {
-    const totals = contacts.length
+  const languageStatistics = useMemo(() => {
+    const totalContacts = contacts.length
+    const languageCount: {
+      language: string
+      count: number
+      percentage: number | string
+    }[] = []
 
-    const result = languages.reduce(
-      (
-        acc: { language: string; count: number; percentage: string }[],
-        language,
-      ) => {
-        const count = contacts.filter(
-          (contact) => contact.language === language,
-        ).length
+    contacts.forEach((contact) => {
+      const { language } = contact
 
-        if (count > 0) {
-          const percentage = ((count / totals) * 100).toFixed(2) + '%'
-          acc.push({ language, count, percentage })
-        }
-        return acc
-      },
-      [],
-    )
+      const existingLanguage = languageCount.find(
+        (lang) => lang.language === language,
+      )
 
-    return result
+      if (existingLanguage) {
+        existingLanguage.count++
+      } else {
+        languageCount.push({
+          language: language,
+          count: 1,
+          percentage: 1 / totalContacts,
+        })
+      }
+    })
+
+    languageCount.forEach((lang) => {
+      lang.percentage = ((lang.count / totalContacts) * 100).toFixed(2) + '%'
+    })
+
+    return languageCount
   }, [contacts])
 
   return (
@@ -84,7 +92,7 @@ export function StatisticsModal({ open, onClose }: IStatisticsModalProps) {
             <CardDescription>Breakdown of users by gender.</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
-            {genderCount
+            {genderStatistics
               .sort((a, b) => b.count - a.count)
               .map((gender) => (
                 <div
@@ -113,7 +121,7 @@ export function StatisticsModal({ open, onClose }: IStatisticsModalProps) {
           </CardHeader>
 
           <CardContent className="flex flex-1 flex-col gap-4 overflow-scroll no-scrollbar">
-            {languageCount
+            {languageStatistics
               .sort((a, b) => b.count - a.count)
               .map((language) => (
                 <div
