@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/select'
 import { languages, months } from '@/lib/utils'
 
+import { FilterAge } from './filter-age'
 import { FilterGroup } from './filter-group'
 
 interface IFiltersProps {
@@ -62,28 +63,6 @@ export function Filters({
 
       <FilterGroup>
         <Select
-          value={params.get('age') ?? undefined}
-          disabled={disabled}
-          onValueChange={(value) => onSelect('age', value)}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select Age" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="0-10">0 to 10 years old</SelectItem>
-            <SelectItem value="11-20">11 to 20 years old</SelectItem>
-            <SelectItem value="21-30">21 to 30 years old</SelectItem>
-            <SelectItem value="31-40">31 to 40 years old</SelectItem>
-            <SelectItem value="41-50">41 to 50 years old</SelectItem>
-            <SelectItem value="51-60">51 to 60 years old</SelectItem>
-            <SelectItem value="61-70">61 to 70 years old</SelectItem>
-            <SelectItem value="71-999">71 years and above</SelectItem>
-          </SelectContent>
-        </Select>
-      </FilterGroup>
-
-      <FilterGroup>
-        <Select
           value={params.get('birthday') ?? undefined}
           disabled={disabled}
           onValueChange={(value) => onSelect('birthday', value)}
@@ -99,6 +78,10 @@ export function Filters({
             ))}
           </SelectContent>
         </Select>
+      </FilterGroup>
+
+      <FilterGroup className="md:w-fit md:max-w-none">
+        <FilterAge params={params} onCommit={onSelect} />
       </FilterGroup>
 
       <FilterGroup>
