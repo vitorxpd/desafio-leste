@@ -4,5 +4,4 @@ Este projeto foi desenvolvido com o framework Vite, para um dsenvolvimento ágil
 
 ### Notas
 - Caso a API atinja o limite máximo de requisições, a aplicação não será capaz de receber a lista da API automaticamente, sendo necessário adicionar contatos manualmente;
-- Os dados de contato serão armazenados no localStorage. Para simular novamente a requisição com a API, é necessário limpar os dados armazenados ou excluir todos os contatos e atualizar a página;
-- As estatísticas de ***languages*** pode ter inconsistência devido a falta de algumas ***languages*** de contatos vindo da API que não estão cadastradas na base do código.
+- Os dados de contato serão armazenados no localStorage. Para simular novamente a requisição com a API, é necessário limpar os dados armazenados ou excluir todos os contatos e atualizar a página.
