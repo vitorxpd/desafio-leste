@@ -7,10 +7,12 @@ import { Spinner } from '@/components/ui/spinner'
 import { useContacts } from '@/contexts/contacts-context'
 
 import { ContactCard } from './components/contact-card'
+import { ContactPagination } from './components/contact-pagination'
 import { Filters } from './components/filters'
 import { RemoveModal } from './components/remove-modal'
 import { StatisticsModal } from './components/statistics-modal'
 import { useFilters } from './hooks/useFilters'
+import { usePagination } from './hooks/usePagination'
 
 export function Home() {
   const [statisticsModalIsOpen, setStatisticsModalIsOpen] = useState(false)
@@ -27,6 +29,15 @@ export function Home() {
     handleSelectFilter,
     handleToggleFilters,
   } = useFilters()
+
+  const {
+    currentContacts,
+    currentPage,
+    totalPages,
+    handleChangePage,
+    handleNextPage,
+    handlePrevPage,
+  } = usePagination(filteredContacts, 20)
 
   const navigate = useNavigate()
 
@@ -123,8 +134,8 @@ export function Home() {
 
         {!isLoading && contacts.length > 0 && (
           <section className="mx-auto">
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {filteredContacts.map((contact) => (
+            <div className="mb-4 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {currentContacts.map((contact) => (
                 <ContactCard
                   key={contact.id}
                   contact={contact}
@@ -133,6 +144,14 @@ export function Home() {
                 />
               ))}
             </div>
+
+            <ContactPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onChangePage={handleChangePage}
+              onNextPage={handleNextPage}
+              onPrevPage={handlePrevPage}
+            />
           </section>
         )}
       </div>
