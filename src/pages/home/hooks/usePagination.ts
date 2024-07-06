@@ -42,7 +42,7 @@ export function usePagination(
   }, [totalPages])
 
   return {
-    currentContacts,
+    paginationContacts: currentContacts,
     currentPage,
     totalPages,
     handleChangePage,
