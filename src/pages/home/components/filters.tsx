@@ -48,7 +48,7 @@ export function Filters({
           </Button>
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div key={params.size} className="flex flex-col gap-2">
           <div>
             <Select
               value={params.get('offset') ?? undefined}
