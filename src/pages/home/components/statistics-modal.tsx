@@ -40,7 +40,7 @@ export function StatisticsModal({ open, onClose }: IStatisticsModalProps) {
       {!isMobile && (
         <Dialog open={open} onOpenChange={onClose}>
           <DialogContent
-            className="h-[420px] max-w-[640px]"
+            className="h-[400px] max-w-[540px]"
             onInteractOutside={onClose}
           >
             <DialogHeader className="hidden">

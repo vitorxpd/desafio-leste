@@ -64,8 +64,8 @@ export function StatisticsContent() {
   }, [contacts])
 
   return (
-    <div className="z-50 mt-6 flex flex-col gap-4 overflow-auto p-4 no-scrollbar md:flex-row md:overflow-hidden md:p-0">
-      <Card className="sm:w-1/2">
+    <div className="z-50 mt-8 flex flex-col gap-4 overflow-auto px-8 pb-4 no-scrollbar md:px-4 md:pb-0">
+      <Card>
         <CardHeader>
           <CardTitle className="text-2xl font-semibold">
             Gender Statistics
@@ -94,7 +94,7 @@ export function StatisticsContent() {
         </CardContent>
       </Card>
 
-      <Card className="flex flex-col md:w-1/2 md:overflow-hidden">
+      <Card>
         <CardHeader>
           <CardTitle className="text-2xl font-semibold">
             Language Statistics
@@ -102,7 +102,7 @@ export function StatisticsContent() {
           <CardDescription>Top languages used on the site.</CardDescription>
         </CardHeader>
 
-        <CardContent className="flex flex-col gap-4 no-scrollbar md:flex-1 md:overflow-scroll">
+        <CardContent className="flex flex-col gap-4">
           {languageStatistics
             .sort((a, b) => b.count - a.count)
             .map((language) => (
