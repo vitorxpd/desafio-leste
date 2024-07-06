@@ -2,13 +2,13 @@ import { Input } from '@/components/ui/input'
 
 interface ISearchProps {
   searchTerm: string
-
+  disabled: boolean
   onChangeSearchTerm: (value: string) => void
 }
 
 export function Search({
   searchTerm,
-
+  disabled,
   onChangeSearchTerm,
 }: ISearchProps) {
   return (
@@ -17,7 +17,8 @@ export function Search({
         type="search"
         placeholder="Search Contacts"
         value={searchTerm}
-        className="w-[320px] sm:w-full md:w-[220px]"
+        disabled={disabled}
+        className="w-full"
         onChange={(event) => onChangeSearchTerm(event.target.value)}
       />
     </div>

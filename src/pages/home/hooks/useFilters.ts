@@ -1,19 +1,14 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { IContact } from '@/contexts/contacts-context'
 import { months } from '@/lib/months'
-import { calculateAge, isMobile } from '@/lib/utils'
+import { calculateAge } from '@/lib/utils'
 
 export function useFilters(contacts: IContact[], firstLoading: boolean) {
   const [filterParams, setFilterParams] = useSearchParams()
-  const [filtersIsVisible, setFiltersIsVisible] = useState(!isMobile)
 
   const filterOffset = filterParams.get('offset')
-
-  const handleToggleFilters = useCallback(() => {
-    setFiltersIsVisible((state) => !state)
-  }, [])
 
   const handleSelectFilter = useCallback(
     (type: string, value: string) => {
@@ -89,10 +84,9 @@ export function useFilters(contacts: IContact[], firstLoading: boolean) {
 
   return {
     filterParams,
-    filtersIsVisible,
     filterOffset,
     filteredContacts,
-    handleToggleFilters,
+
     handleSelectFilter,
     handleClearFilters,
   }

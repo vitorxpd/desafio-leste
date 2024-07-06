@@ -26,11 +26,10 @@ export function Home() {
   const {
     filterParams,
     filteredContacts,
-    filtersIsVisible,
+
     filterOffset,
     handleClearFilters,
     handleSelectFilter,
-    handleToggleFilters,
   } = useFilters(contacts, isFirstLoading)
 
   const {
@@ -92,44 +91,32 @@ export function Home() {
           </Button>
         </section>
 
-        <section className="mx-auto mb-4 w-[320px] sm:w-auto">
-          <div className="mb-4 flex items-center justify-between">
-            <Button
-              className="w-32"
-              onClick={handleOpenStatisticsModal}
-              disabled={contacts.length === 0 || isLoading}
-            >
-              Show Statistics
-            </Button>
+        <section className="mx-auto mb-4 flex w-[320px] flex-col items-end gap-4 sm:w-full sm:flex-row sm:items-center sm:justify-between">
+          <Button
+            className="w-32"
+            onClick={handleOpenStatisticsModal}
+            disabled={contacts.length === 0 || isLoading}
+          >
+            Show Statistics
+          </Button>
 
-            <Button
-              className="w-32 md:hidden"
-              onClick={handleToggleFilters}
-              disabled={isLoading}
-            >
-              {filtersIsVisible ? 'Hide Filters' : 'Show Filters'}
-            </Button>
-          </div>
+          <div className="flex w-full justify-end gap-2">
+            <div className="w-full sm:w-[220px]">
+              <Search
+                searchTerm={searchTerm}
+                disabled={contacts.length === 0 || isLoading}
+                onChangeSearchTerm={handleChangeSearchTerm}
+              />
+            </div>
 
-          {filtersIsVisible && (
             <Filters
-              key={filterParams.size}
               params={filterParams}
               disabled={contacts.length === 0 || isLoading}
               onSelect={handleSelectFilter}
               onClear={handleClearFilters}
             />
-          )}
+          </div>
         </section>
-
-        {paginationContacts.length > 0 && (
-          <section className="mb-4">
-            <Search
-              searchTerm={searchTerm}
-              onChangeSearchTerm={handleChangeSearchTerm}
-            />
-          </section>
-        )}
 
         {isLoading && (
           <div className="mx-auto mt-40 w-fit">

@@ -38,7 +38,6 @@ export function FilterAge({ params, disabled, onCommit }: IFilterAgeProps) {
       <span>Age</span>
 
       <Slider
-        className="w-full md:w-[120px]"
         defaultValue={currentValue}
         min={0}
         max={100}
