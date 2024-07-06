@@ -2,7 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { IContact } from '@/contexts/contacts-context'
-import { calculateAge, isMobile, months } from '@/lib/utils'
+import { months } from '@/lib/months'
+import { calculateAge, isMobile } from '@/lib/utils'
 
 export function useFilters(contacts: IContact[], firstLoading: boolean) {
   const [filterParams, setFilterParams] = useSearchParams()

@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { IContact } from '@/contexts/contacts-context'
-import { languages } from '@/lib/utils'
+import { languages } from '@/lib/languages'
 
 import { Button } from '../ui/button'
 import { Card, CardContent } from '../ui/card'

@@ -6,7 +6,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { languages, months } from '@/lib/utils'
+import { languages } from '@/lib/languages'
+import { months } from '@/lib/months'
 
 import { FilterAge } from './filter-age'
 import { FilterGroup } from './filter-group'
