@@ -10,6 +10,8 @@ export function useFilters() {
 
   const { contacts, isFirstLoading } = useContacts()
 
+  const filterOffset = filterParams.get('offset')
+
   const handleToggleFilters = useCallback(() => {
     setFiltersIsVisible((state) => !state)
   }, [])
@@ -89,6 +91,7 @@ export function useFilters() {
   return {
     filterParams,
     filtersIsVisible,
+    filterOffset,
     filteredContacts,
     handleToggleFilters,
     handleSelectFilter,

@@ -1,15 +1,20 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { IContact } from '@/contexts/contacts-context'
 
-export function usePagination(contacts: IContact[], offset: number) {
+export function usePagination(
+  contacts: IContact[],
+  offset: string | number | null,
+) {
   const [currentPage, setCurrentPage] = useState(1)
 
-  const indexOfLastItem = currentPage * offset
-  const indexOfFirstItem = indexOfLastItem - offset
+  const currentOffset = Number(offset) || 20
+
+  const indexOfLastItem = currentPage * currentOffset
+  const indexOfFirstItem = indexOfLastItem - currentOffset
 
   const currentContacts = contacts.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(contacts.length / offset)
+  const totalPages = Math.ceil(contacts.length / currentOffset)
 
   const handleChangePage = useCallback((page: number) => {
     setCurrentPage(page)
@@ -22,6 +27,21 @@ export function usePagination(contacts: IContact[], offset: number) {
   const handlePrevPage = useCallback(() => {
     setCurrentPage((page) => (page === 1 ? 1 : page - 1))
   }, [])
+
+  useEffect(() => {
+    if (!offset) {
+      setCurrentPage((page) => {
+        switch (true) {
+          case page === 1:
+            return 1
+          case page > totalPages:
+            return totalPages
+          default:
+            return page
+        }
+      })
+    }
+  }, [offset, totalPages])
 
   return {
     currentContacts,

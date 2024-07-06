@@ -28,6 +28,23 @@ export function Filters({
     <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-end">
       <FilterGroup>
         <Select
+          value={params.get('offset') ?? undefined}
+          disabled={disabled}
+          onValueChange={(value) => onSelect('offset', value)}
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Items Per Page" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="10">10</SelectItem>
+            <SelectItem value="20">20</SelectItem>
+            <SelectItem value="30">30</SelectItem>
+          </SelectContent>
+        </Select>
+      </FilterGroup>
+
+      <FilterGroup>
+        <Select
           value={params.get('gender') ?? undefined}
           disabled={disabled}
           onValueChange={(value) => onSelect('gender', value)}

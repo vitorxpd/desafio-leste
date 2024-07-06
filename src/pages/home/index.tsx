@@ -25,6 +25,7 @@ export function Home() {
     filterParams,
     filteredContacts,
     filtersIsVisible,
+    filterOffset,
     handleClearFilters,
     handleSelectFilter,
     handleToggleFilters,
@@ -37,7 +38,7 @@ export function Home() {
     handleChangePage,
     handleNextPage,
     handlePrevPage,
-  } = usePagination(filteredContacts, 20)
+  } = usePagination(filteredContacts, filterOffset)
 
   const navigate = useNavigate()
 
