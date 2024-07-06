@@ -10,16 +10,18 @@ import { ContactCard } from './components/contact-card'
 import { ContactPagination } from './components/contact-pagination'
 import { Filters } from './components/filters'
 import { RemoveModal } from './components/remove-modal'
+import { Search } from './components/search'
 import { StatisticsModal } from './components/statistics-modal'
 import { useFilters } from './hooks/useFilters'
 import { usePagination } from './hooks/usePagination'
+import { useSearch } from './hooks/useSearch'
 
 export function Home() {
   const [statisticsModalIsOpen, setStatisticsModalIsOpen] = useState(false)
   const [removeModalIsOpen, setRemoveModalIsOpen] = useState(false)
   const [removeContactId, setRemoveContactId] = useState<number | null>(null)
 
-  const { contacts, isLoading, removeContact } = useContacts()
+  const { contacts, isFirstLoading, isLoading, removeContact } = useContacts()
 
   const {
     filterParams,
@@ -29,16 +31,19 @@ export function Home() {
     handleClearFilters,
     handleSelectFilter,
     handleToggleFilters,
-  } = useFilters()
+  } = useFilters(contacts, isFirstLoading)
 
   const {
-    currentContacts,
+    paginationContacts,
     currentPage,
     totalPages,
     handleChangePage,
     handleNextPage,
     handlePrevPage,
   } = usePagination(filteredContacts, filterOffset)
+
+  const { searchContacts, searchTerm, handleChangeSearchTerm } =
+    useSearch(paginationContacts)
 
   const navigate = useNavigate()
 
@@ -87,7 +92,7 @@ export function Home() {
           </Button>
         </section>
 
-        <section className="mx-auto mb-4 w-[320px] sm:w-auto">
+        <section className="mx-auto mb-8 w-[320px] sm:w-auto">
           <div className="mb-4 flex items-center justify-between">
             <Button
               className="w-32"
@@ -117,13 +122,23 @@ export function Home() {
           )}
         </section>
 
+        {paginationContacts.length > 0 && (
+          <section className="mb-4">
+            <Search
+              searchTerm={searchTerm}
+              searchCount={searchContacts.length}
+              onChangeSearchTerm={handleChangeSearchTerm}
+            />
+          </section>
+        )}
+
         {isLoading && (
           <div className="mx-auto mt-40 w-fit">
             <Spinner className="h-16 w-16" />
           </div>
         )}
 
-        {!isLoading && contacts.length === 0 && (
+        {!isLoading && paginationContacts.length === 0 && (
           <div className="mx-auto mt-32 flex w-fit flex-col items-center gap-4 text-center">
             <Contact className="h-16 w-16 text-muted-foreground" />
             <h2 className="text-2xl font-bold">No Contacts Found</h2>
@@ -133,26 +148,39 @@ export function Home() {
           </div>
         )}
 
-        {!isLoading && contacts.length > 0 && (
+        {!isLoading && paginationContacts.length > 0 && (
           <section className="mx-auto">
             <div className="mb-4 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {currentContacts.map((contact) => (
-                <ContactCard
-                  key={contact.id}
-                  contact={contact}
-                  onRemoveContactId={handleSetRemoveContactId}
-                  onOpenRemoveModal={handleOpenRemoveModal}
-                />
-              ))}
+              {searchTerm.length > 0 &&
+                searchContacts.map((contact) => (
+                  <ContactCard
+                    key={contact.id}
+                    contact={contact}
+                    onRemoveContactId={handleSetRemoveContactId}
+                    onOpenRemoveModal={handleOpenRemoveModal}
+                  />
+                ))}
+
+              {searchTerm.length === 0 &&
+                paginationContacts.map((contact) => (
+                  <ContactCard
+                    key={contact.id}
+                    contact={contact}
+                    onRemoveContactId={handleSetRemoveContactId}
+                    onOpenRemoveModal={handleOpenRemoveModal}
+                  />
+                ))}
             </div>
 
-            <ContactPagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onChangePage={handleChangePage}
-              onNextPage={handleNextPage}
-              onPrevPage={handlePrevPage}
-            />
+            {searchTerm.length === 0 && (
+              <ContactPagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onChangePage={handleChangePage}
+                onNextPage={handleNextPage}
+                onPrevPage={handlePrevPage}
+              />
+            )}
           </section>
         )}
       </div>
