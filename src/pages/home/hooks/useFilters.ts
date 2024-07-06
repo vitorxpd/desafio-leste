@@ -1,14 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-import { useContacts } from '@/contexts/contacts-context'
+import { IContact } from '@/contexts/contacts-context'
 import { calculateAge, isMobile, months } from '@/lib/utils'
 
-export function useFilters() {
+export function useFilters(contacts: IContact[], firstLoading: boolean) {
   const [filterParams, setFilterParams] = useSearchParams()
   const [filtersIsVisible, setFiltersIsVisible] = useState(!isMobile)
-
-  const { contacts, isFirstLoading } = useContacts()
 
   const filterOffset = filterParams.get('offset')
 
@@ -83,10 +81,10 @@ export function useFilters() {
   }, [contacts, filterParams])
 
   useEffect(() => {
-    if (contacts.length === 0 && !isFirstLoading) {
+    if (contacts.length === 0 && !firstLoading) {
       handleClearFilters()
     }
-  }, [contacts, isFirstLoading, handleClearFilters])
+  }, [contacts, firstLoading, handleClearFilters])
 
   return {
     filterParams,
