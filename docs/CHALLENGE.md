@@ -59,7 +59,7 @@ yarn install
 ---
 ### Guia de Scripts
 
-Modo Desenvolvimento
+**Modo Desenvolvimento**
 ```bash
 yarn dev
 ```
