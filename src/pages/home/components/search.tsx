@@ -12,7 +12,7 @@ export function Search({
   onChangeSearchTerm,
 }: ISearchProps) {
   return (
-    <div className="flex flex-col items-center gap-2 md:items-end">
+    <div className="flex flex-col items-center gap-4 md:items-end">
       <Input
         type="search"
         placeholder="Search Contacts"
