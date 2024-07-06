@@ -1,4 +1,3 @@
-import { Contact } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -7,6 +6,7 @@ import { Spinner } from '@/components/ui/spinner'
 import { useContacts } from '@/contexts/contacts-context'
 
 import { ContactCard } from './components/contact-card'
+import { ContactFallback } from './components/contact-fallback'
 import { ContactPagination } from './components/contact-pagination'
 import { Filters } from './components/filters'
 import { RemoveModal } from './components/remove-modal'
@@ -126,7 +126,6 @@ export function Home() {
           <section className="mb-4">
             <Search
               searchTerm={searchTerm}
-              searchCount={searchContacts.length}
               onChangeSearchTerm={handleChangeSearchTerm}
             />
           </section>
@@ -138,15 +137,12 @@ export function Home() {
           </div>
         )}
 
-        {!isLoading && paginationContacts.length === 0 && (
-          <div className="mx-auto mt-32 flex w-fit flex-col items-center gap-4 text-center">
-            <Contact className="h-16 w-16 text-muted-foreground" />
-            <h2 className="text-2xl font-bold">No Contacts Found</h2>
-            <p className="text-muted-foreground">
-              You don&apos;t have any contacts to display yet.
-            </p>
-          </div>
-        )}
+        {!isLoading &&
+          (paginationContacts.length === 0 || searchContacts.length === 0) && (
+            <section className="mt-16 md:mt-28">
+              <ContactFallback />
+            </section>
+          )}
 
         {!isLoading && paginationContacts.length > 0 && (
           <section className="mx-auto">
