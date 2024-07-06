@@ -29,19 +29,17 @@ export function usePagination(
   }, [])
 
   useEffect(() => {
-    if (!offset) {
-      setCurrentPage((page) => {
-        switch (true) {
-          case page === 1:
-            return 1
-          case page > totalPages:
-            return totalPages
-          default:
-            return page
-        }
-      })
-    }
-  }, [offset, totalPages])
+    setCurrentPage((page) => {
+      switch (true) {
+        case page === 1:
+          return 1
+        case page > totalPages:
+          return totalPages
+        default:
+          return page
+      }
+    })
+  }, [totalPages])
 
   return {
     currentContacts,
