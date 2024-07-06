@@ -12,18 +12,22 @@ export function Search({
   onChangeSearchTerm,
 }: ISearchProps) {
   return (
-    <div className="flex flex-col items-center gap-4 md:items-end">
-      <Input
-        type="search"
-        placeholder="Search Contacts"
-        value={searchTerm}
-        className="w-[320px] sm:w-full md:w-[220px]"
-        onChange={(event) => onChangeSearchTerm(event.target.value)}
-      />
+    <div className="mx-auto flex flex-col items-center md:items-end">
+      <div className="w-[320px] sm:w-full md:w-[220px]">
+        <Input
+          type="search"
+          placeholder="Search Contacts"
+          value={searchTerm}
+          className="w-full"
+          onChange={(event) => onChangeSearchTerm(event.target.value)}
+        />
 
-      {searchTerm.length > 0 && (
-        <p className="text-muted-foreground">Contacts Found: {searchCount}</p>
-      )}
+        {searchTerm.length > 0 && (
+          <div className="mt-1 text-right text-muted-foreground">
+            <p>Contacts Found: {searchCount}</p>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
