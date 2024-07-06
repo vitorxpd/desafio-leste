@@ -92,7 +92,7 @@ export function Home() {
           </Button>
         </section>
 
-        <section className="mx-auto mb-8 w-[320px] sm:w-auto">
+        <section className="mx-auto mb-4 w-[320px] sm:w-auto">
           <div className="mb-4 flex items-center justify-between">
             <Button
               className="w-32"
