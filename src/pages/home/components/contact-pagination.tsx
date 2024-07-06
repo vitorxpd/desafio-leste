@@ -3,7 +3,6 @@ import { MouseEvent } from 'react'
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -49,18 +48,18 @@ export function ContactPagination({
         <PaginationItem>
           <PaginationPrevious href="#" onClick={handlePrevPage} />
         </PaginationItem>
-        <PaginationItem>
-          {currentPage === 1 ? (
-            <PaginationEllipsis className="opacity-0" />
-          ) : (
+
+        {currentPage > 1 && (
+          <PaginationItem>
             <PaginationLink
               href="#"
               onClick={(event) => handleChangePage(event, currentPage - 1)}
             >
               {currentPage - 1}
             </PaginationLink>
-          )}
-        </PaginationItem>
+          </PaginationItem>
+        )}
+
         <PaginationItem>
           <PaginationLink
             href="#"
@@ -71,18 +70,16 @@ export function ContactPagination({
           </PaginationLink>
         </PaginationItem>
 
-        <PaginationItem>
-          {currentPage + 1 > totalPages ? (
-            <PaginationEllipsis className="opacity-0" />
-          ) : (
+        {!(currentPage + 1 > totalPages) && (
+          <PaginationItem>
             <PaginationLink
               href="#"
               onClick={(event) => handleChangePage(event, currentPage + 1)}
             >
               {currentPage + 1}
             </PaginationLink>
-          )}
-        </PaginationItem>
+          </PaginationItem>
+        )}
 
         <PaginationItem>
           <PaginationNext href="#" onClick={handleNextPage} />
