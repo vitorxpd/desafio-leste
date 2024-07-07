@@ -86,7 +86,6 @@ export function useFilters(contacts: IContact[], firstLoading: boolean) {
     filterParams,
     filterOffset,
     filteredContacts,
-
     handleSelectFilter,
     handleClearFilters,
   }

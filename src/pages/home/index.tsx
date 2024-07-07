@@ -26,7 +26,6 @@ export function Home() {
   const {
     filterParams,
     filteredContacts,
-
     filterOffset,
     handleClearFilters,
     handleSelectFilter,
