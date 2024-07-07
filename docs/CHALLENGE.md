@@ -29,6 +29,7 @@ Este projeto foi desenvolvido como parte de um desafio para a vaga de desenvolvi
 - **Editar Contato:** Possibilita a edição de informações de contatos existentes.
 - **Excluir Contato:** Permite a remoção de contatos do sistema.
 - **Estatísticas:** Gera relatórios mostrando a distribuição de contatos por gênero e idioma.
+- **Busca de Contatos:** Permite a pesquisa de contatos por nome.
 - **Paginação:** Divide a lista de contatos em páginas, facilitando a navegação e visualização.
 - **Filtros de Exibição:**
   - **Itens por Página:** Controla o número de contatos exibidos por página.
@@ -36,7 +37,6 @@ Este projeto foi desenvolvido como parte de um desafio para a vaga de desenvolvi
   - **Por Idioma:** Filtra contatos com base no idioma.
   - **Por Mês de Aniversário:** Filtra contatos de acordo com o mês de nascimento.
   - **Por Idade:** Filtra contatos com base na faixa etária.
-  - **Busca de Contatos:** Permite a pesquisa de contatos por nome.
 
 
 ### Guia de Instalação
