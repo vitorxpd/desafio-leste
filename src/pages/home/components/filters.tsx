@@ -39,12 +39,17 @@ export function Filters({
       <PopoverTrigger disabled={disabled} onClick={() => setIsOpen(!isOpen)}>
         <ListFilter />
       </PopoverTrigger>
+
       <PopoverContent>
-        <div className="mb-4 flex items-center justify-between">
+        <div className="mb-2 flex items-center justify-between">
           <h3 className="text-lg">Filters</h3>
 
-          <Button variant="ghost" onClick={() => setIsOpen(false)}>
-            <X className="h-5 w-5" />
+          <Button
+            variant="ghost"
+            className="relative h-5 w-5 p-0"
+            onClick={() => setIsOpen(false)}
+          >
+            <X className="absolute h-full w-full" />
           </Button>
         </div>
 
