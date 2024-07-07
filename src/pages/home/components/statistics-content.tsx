@@ -64,7 +64,7 @@ export function StatisticsContent() {
   }, [contacts])
 
   return (
-    <div className="z-50 mt-8 flex flex-col gap-4 overflow-auto px-8 pb-4 no-scrollbar md:px-4 md:pb-0">
+    <div className="z-50 mt-8 flex flex-col gap-4 overflow-auto px-6 pb-4 no-scrollbar md:mt-12">
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl font-semibold">
