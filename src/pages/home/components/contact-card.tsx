@@ -34,7 +34,10 @@ export function ContactCard({
   }
 
   return (
-    <Card key={contact.id} className="mx-auto max-w-[320px]">
+    <Card
+      key={contact.id}
+      className="mx-auto flex h-[260px] max-w-[320px] flex-col"
+    >
       <CardHeader className="flex-row items-center gap-4">
         <Avatar className="bg-black">
           <AvatarImage src={contact.avatar} alt="Avatar" />
@@ -65,7 +68,7 @@ export function ContactCard({
         </div>
       </CardContent>
 
-      <CardFooter className="flex justify-end gap-2">
+      <CardFooter className="flex flex-1 items-end justify-end gap-2">
         <Button variant="outline" onClick={handleNavigateToEditContact}>
           Edit
         </Button>
