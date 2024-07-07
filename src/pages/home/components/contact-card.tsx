@@ -36,7 +36,7 @@ export function ContactCard({
   return (
     <Card
       key={contact.id}
-      className="mx-auto flex h-[260px] max-w-[320px] flex-col"
+      className="mx-auto flex h-[280px] max-w-[320px] flex-col"
     >
       <CardHeader className="flex-row items-center gap-4">
         <Avatar className="bg-black">
