@@ -5,11 +5,13 @@ import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
 import { IContact } from '@/contexts/contacts-context'
+import { calculateAge } from '@/lib/utils'
 
 interface IContactCardProps {
   contact: IContact
@@ -47,9 +49,15 @@ export function ContactCard({
           </AvatarFallback>
         </Avatar>
 
-        <CardTitle className="text-lg font-semibold">
-          {contact.first_name} {contact.last_name}
-        </CardTitle>
+        <div>
+          <CardTitle className="text-lg font-semibold">
+            {contact.first_name} {contact.last_name}
+          </CardTitle>
+
+          <CardDescription>
+            Age: {calculateAge(contact.birthday)}
+          </CardDescription>
+        </div>
       </CardHeader>
 
       <CardContent className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
