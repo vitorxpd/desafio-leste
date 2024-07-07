@@ -34,20 +34,28 @@ export function Filters({
 }: IFiltersProps) {
   const [isOpen, setIsOpen] = useState(false)
 
+  function handleOpenPopover() {
+    setIsOpen(true)
+  }
+
+  function handleClosePopover() {
+    setIsOpen(false)
+  }
+
   return (
     <Popover open={isOpen}>
-      <PopoverTrigger disabled={disabled} onClick={() => setIsOpen(!isOpen)}>
+      <PopoverTrigger disabled={disabled} onClick={handleOpenPopover}>
         <ListFilter />
       </PopoverTrigger>
 
-      <PopoverContent>
+      <PopoverContent onInteractOutside={handleClosePopover}>
         <div className="mb-2 flex items-center justify-between">
           <h3 className="text-lg">Filters</h3>
 
           <Button
             variant="ghost"
             className="relative h-5 w-5 p-0"
-            onClick={() => setIsOpen(false)}
+            onClick={handleClosePopover}
           >
             <X className="absolute h-full w-full" />
           </Button>
