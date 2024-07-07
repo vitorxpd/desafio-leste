@@ -78,7 +78,10 @@ export function Home() {
     <>
       <div>
         <section className="mx-auto mb-8 flex w-[320px] items-center justify-between sm:w-auto">
-          <h1 className="text-3xl font-bold text-primary-green">Contacts</h1>
+          <h1 className="text-3xl font-bold text-primary-green">
+            Contacts{' '}
+            <span className="align-middle text-2xl">({contacts.length})</span>
+          </h1>
 
           <Button
             variant="green"
