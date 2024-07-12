@@ -84,6 +84,16 @@ export function Home() {
               ({contacts.length})
             </span>
           </h1>
+        </section>
+
+        <section className="mx-auto mb-4 flex w-[320px] items-center justify-between sm:w-auto">
+          <Button
+            className="w-32"
+            onClick={handleOpenStatisticsModal}
+            disabled={contacts.length === 0 || isLoading}
+          >
+            Show Statistics
+          </Button>
 
           <Button
             variant="green"
@@ -95,31 +105,21 @@ export function Home() {
           </Button>
         </section>
 
-        <section className="mx-auto mb-4 flex w-[320px] flex-col items-end gap-4 sm:w-full sm:flex-row sm:items-center sm:justify-between">
-          <Button
-            className="w-32"
-            onClick={handleOpenStatisticsModal}
-            disabled={contacts.length === 0 || isLoading}
-          >
-            Show Statistics
-          </Button>
-
-          <div className="flex w-full justify-end gap-2">
-            <div className="w-full sm:w-[220px]">
-              <Search
-                searchTerm={searchTerm}
-                disabled={contacts.length === 0 || isLoading}
-                onChangeSearchTerm={handleChangeSearchTerm}
-              />
-            </div>
-
-            <Filters
-              params={filterParams}
+        <section className="mx-auto mb-4 flex w-[320px] justify-end gap-2 sm:mx-0 sm:w-full">
+          <div className="w-full sm:w-[220px]">
+            <Search
+              searchTerm={searchTerm}
               disabled={contacts.length === 0 || isLoading}
-              onSelect={handleSelectFilter}
-              onClear={handleClearFilters}
+              onChangeSearchTerm={handleChangeSearchTerm}
             />
           </div>
+
+          <Filters
+            params={filterParams}
+            disabled={contacts.length === 0 || isLoading}
+            onSelect={handleSelectFilter}
+            onClear={handleClearFilters}
+          />
         </section>
 
         {isLoading && (
