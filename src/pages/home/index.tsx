@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 import { useContacts } from '@/contexts/contacts-context'
 
@@ -10,7 +11,6 @@ import { ContactFallback } from './components/contact-fallback'
 import { ContactPagination } from './components/contact-pagination'
 import { Filters } from './components/filters'
 import { RemoveModal } from './components/remove-modal'
-import { Search } from './components/search'
 import { StatisticsModal } from './components/statistics-modal'
 import { useFilters } from './hooks/useFilters'
 import { usePagination } from './hooks/usePagination'
@@ -106,13 +106,14 @@ export function Home() {
         </section>
 
         <section className="mx-auto mb-4 flex w-[320px] justify-end gap-2 sm:mx-0 sm:w-full">
-          <div className="w-full sm:w-[220px]">
-            <Search
-              searchTerm={searchTerm}
-              disabled={contacts.length === 0 || isLoading}
-              onChangeSearchTerm={handleChangeSearchTerm}
-            />
-          </div>
+          <Input
+            type="search"
+            placeholder="Search Contacts"
+            value={searchTerm}
+            disabled={contacts.length === 0 || isLoading}
+            className="w-full sm:w-[220px]"
+            onChange={(event) => handleChangeSearchTerm(event.target.value)}
+          />
 
           <Filters
             params={filterParams}
