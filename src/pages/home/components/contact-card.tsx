@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { IContact } from '@/contexts/contacts-context'
+import { IContact } from '@/interfaces/IContact'
 import { calculateAge } from '@/lib/utils'
 
 interface IContactCardProps {

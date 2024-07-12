@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-import { IContact } from '@/contexts/contacts-context'
+import { IContact } from '@/interfaces/IContact'
 import { months } from '@/lib/months'
 import { calculateAge } from '@/lib/utils'
 

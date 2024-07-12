@@ -1,6 +1,6 @@
 import { useCallback, useDeferredValue, useMemo, useState } from 'react'
 
-import { IContact } from '@/contexts/contacts-context'
+import { IContact } from '@/interfaces/IContact'
 
 export function useSearch(contacts: IContact[]) {
   const [searchTerm, setSearchTerm] = useState('')

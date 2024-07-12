@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { IContact } from '@/contexts/contacts-context'
+import { IContact } from '@/interfaces/IContact'
 
 export function usePagination(
   contacts: IContact[],

@@ -3,7 +3,7 @@ import { ChangeEvent } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { IContact } from '@/contexts/contacts-context'
+import { IContact } from '@/interfaces/IContact'
 import { languages } from '@/lib/languages'
 
 import { Button } from '../ui/button'

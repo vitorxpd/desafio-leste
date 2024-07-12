@@ -6,7 +6,8 @@ import { ContactForm, TContactFormSchema } from '@/components/contact-form'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/sonner'
 import { Spinner } from '@/components/ui/spinner'
-import { IContact, useContacts } from '@/contexts/contacts-context'
+import { useContacts } from '@/contexts/contacts-context'
+import { IContact } from '@/interfaces/IContact'
 
 export function EditContact() {
   const [currentContact, setCurrentContact] = useState<
