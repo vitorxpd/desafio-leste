@@ -9,7 +9,7 @@ interface IErrorFallbackProps {
 
 export function ErrorFallback({ onTryAgain }: IErrorFallbackProps) {
   return (
-    <div className="mx-auto flex w-fit flex-col items-center gap-4">
+    <div className="mx-auto flex w-fit max-w-[320px] flex-col items-center gap-4 sm:max-w-[540px]">
       <div className="flex flex-col items-center gap-2">
         <Frown className="h-16 w-16 text-destructive" />
 
