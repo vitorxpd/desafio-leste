@@ -1,3 +1,4 @@
+import { AxiosError, CanceledError } from 'axios'
 import {
   createContext,
   ReactNode,
@@ -7,8 +8,10 @@ import {
   useState,
 } from 'react'
 
+import { APIError } from '@/errors/api-error'
 import { IContact } from '@/interfaces/IContact'
 import { generateId } from '@/lib/utils'
+import ContactsService from '@/services/contacts-service'
 
 interface IContactsContext {
   contacts: IContact[]
@@ -106,6 +109,7 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
       if (contactsStorage.length > 0) {
         setContacts(contactsStorage)
         setIsLoading(false)
+        setIsFirstLoading(false)
         return
       }
     }
@@ -114,28 +118,34 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
 
     async function loadContacts() {
       try {
-        const response = await fetch(
-          'https://my.api.mockaroo.com/lestetelecom/test.json?key=f55c4060',
-          {
-            signal: controller.signal,
-          },
-        )
+        const { data, status } = await ContactsService.listContacts({
+          signal: controller.signal,
+        })
 
-        if (!response.ok) {
-          throw new Error()
+        if (status === 200) {
+          setContacts(data)
+          localStorage.setItem(storageKey, JSON.stringify(data))
+          return
         }
 
-        const data = await response.json()
-        setContacts(data)
-        localStorage.setItem(storageKey, JSON.stringify(data))
-      } catch {
-        //
+        throw new Error()
+      } catch (error) {
+        if (error instanceof CanceledError) {
+          return
+        }
+
+        if (error instanceof AxiosError) {
+          throw new APIError(error.message)
+        }
+
+        throw new APIError('Request failed')
+      } finally {
+        setIsLoading(false)
+        setIsFirstLoading(false)
       }
     }
 
     loadContacts()
-    setIsLoading(false)
-    setIsFirstLoading(false)
 
     return () => {
       controller.abort()
