@@ -23,7 +23,8 @@ class ContactsService implements IContactsService {
   public async listContacts(
     config: AxiosRequestConfig,
   ): Promise<AxiosResponse<IContact[]>> {
-    return await this.httpClient.get(config)
+    const response = await this.httpClient.get<IContact[]>(config)
+    return response
   }
 }
 

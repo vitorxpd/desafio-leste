@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { delay } from '@/lib/utils'
 
 interface IHttpClient {
-  get(config: AxiosRequestConfig): Promise<AxiosResponse>
+  get<T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>>
 }
 
 export class HttpClient implements IHttpClient {
@@ -13,21 +13,25 @@ export class HttpClient implements IHttpClient {
     this.baseConfig = baseConfig
   }
 
-  public get(config: AxiosRequestConfig): Promise<AxiosResponse> {
-    return this.makeRequest({
+  public get<T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    const response = this.makeRequest<T>({
       method: 'GET',
       ...config,
     })
+
+    return response
   }
 
-  private async makeRequest(
+  private async makeRequest<T>(
     config: AxiosRequestConfig,
-  ): Promise<AxiosResponse> {
+  ): Promise<AxiosResponse<T>> {
     await delay()
 
-    return await axios({
+    const response = await axios<T>({
       ...this.baseConfig,
       ...config,
     })
+
+    return response
   }
 }
