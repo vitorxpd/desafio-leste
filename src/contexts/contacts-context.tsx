@@ -9,8 +9,10 @@ import {
 } from 'react'
 
 import { APIError } from '@/errors/api-error'
+import { StorageError } from '@/errors/storage-error'
 import { IContact } from '@/interfaces/IContact'
-import { generateId } from '@/lib/utils'
+import { storageKey } from '@/lib/constants'
+import { delay, generateId } from '@/lib/utils'
 import ContactsService from '@/services/contacts-service'
 
 interface IContactsContext {
@@ -28,8 +30,6 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
   const [contacts, setContacts] = useState<IContact[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isFirstLoading, setIsFirstLoading] = useState(true)
-
-  const storageKey = '@desafio-leste-1.0.0'
 
   const addContact = useCallback(
     (contact: Omit<IContact, 'id'>) => {
@@ -98,33 +98,56 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
     [contacts],
   )
 
-  useEffect(() => {
-    setIsLoading(true)
+  const loadStorage = useCallback(async () => {
+    if (contacts.length > 0) {
+      return
+    }
 
     const storage = localStorage.getItem(storageKey)
 
-    if (storage) {
+    if (!storage) {
+      return
+    }
+
+    try {
       const contactsStorage = JSON.parse(storage)
+
+      setIsLoading(true)
+
+      await delay()
 
       if (contactsStorage.length > 0) {
         setContacts(contactsStorage)
-        setIsLoading(false)
-        setIsFirstLoading(false)
         return
       }
+    } catch (error) {
+      if (error instanceof SyntaxError) {
+        throw new StorageError('Invalid JSON format')
+      }
+
+      throw new StorageError('Unknown error occurred')
+    } finally {
+      setIsLoading(false)
     }
+  }, [contacts])
 
-    const controller = new AbortController()
+  const loadContacts = useCallback(
+    async (controller: AbortController) => {
+      if (contacts.length > 0) {
+        return
+      }
 
-    async function loadContacts() {
       try {
+        setIsLoading(true)
+
         const { data, status } = await ContactsService.listContacts({
           signal: controller.signal,
         })
 
         if (status === 200) {
-          setContacts(data)
           localStorage.setItem(storageKey, JSON.stringify(data))
+          setContacts(data)
+
           return
         }
 
@@ -141,16 +164,23 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
         throw new APIError('Request failed')
       } finally {
         setIsLoading(false)
-        setIsFirstLoading(false)
       }
-    }
+    },
+    [contacts],
+  )
 
-    loadContacts()
+  useEffect(() => {
+    const controller = new AbortController()
+
+    loadStorage()
+    loadContacts(controller)
+
+    setIsFirstLoading(false)
 
     return () => {
       controller.abort()
     }
-  }, [])
+  }, [loadContacts, loadStorage])
 
   return (
     <ContactsContext.Provider
