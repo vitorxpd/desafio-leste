@@ -19,9 +19,11 @@ interface IContactsContext {
   contacts: IContact[]
   isLoading: boolean
   isFirstLoading: boolean
+  hasError: boolean
   addContact: (contact: Omit<IContact, 'id'>) => void
   editContact: (contactId: number, contact: Omit<IContact, 'id'>) => void
   removeContact: (contactId: number) => void
+  loadContacts: (controller?: AbortController) => Promise<void>
 }
 
 export const ContactsContext = createContext({} as IContactsContext)
@@ -30,10 +32,12 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
   const [contacts, setContacts] = useState<IContact[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isFirstLoading, setIsFirstLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
 
   const addContact = useCallback(
     (contact: Omit<IContact, 'id'>) => {
       setIsLoading(true)
+
       const {
         avatar,
         birthday,
@@ -59,6 +63,7 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
 
       localStorage.setItem(storageKey, JSON.stringify(newContacts))
       setContacts(newContacts)
+      setHasError(false)
       setIsLoading(false)
     },
     [contacts],
@@ -78,6 +83,7 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
 
       localStorage.setItem(storageKey, JSON.stringify(updatedContacts))
       setContacts(updatedContacts)
+      setHasError(false)
       setIsLoading(false)
     },
     [contacts],
@@ -93,6 +99,7 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
 
       localStorage.setItem(storageKey, JSON.stringify(filteredContacts))
       setContacts(filteredContacts)
+      setHasError(false)
       setIsLoading(false)
     },
     [contacts],
@@ -112,15 +119,19 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
     try {
       const contactsStorage = JSON.parse(storage)
 
+      setHasError(false)
       setIsLoading(true)
 
       await delay()
 
       if (contactsStorage.length > 0) {
         setContacts(contactsStorage)
+        setHasError(false)
         return
       }
     } catch (error) {
+      setHasError(true)
+
       if (error instanceof SyntaxError) {
         throw new StorageError('Invalid JSON format')
       }
@@ -132,28 +143,32 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
   }, [contacts])
 
   const loadContacts = useCallback(
-    async (controller: AbortController) => {
+    async (controller?: AbortController) => {
       if (contacts.length > 0) {
         return
       }
 
       try {
+        setHasError(false)
         setIsLoading(true)
 
         const { data, status } = await ContactsService.listContacts({
-          signal: controller.signal,
+          signal: controller?.signal,
         })
 
         if (status === 200) {
           localStorage.setItem(storageKey, JSON.stringify(data))
           setContacts(data)
-
+          setHasError(false)
           return
         }
 
         throw new Error()
       } catch (error) {
+        setHasError(true)
+
         if (error instanceof CanceledError) {
+          setHasError(false)
           return
         }
 
@@ -188,9 +203,11 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
         contacts,
         isLoading,
         isFirstLoading,
+        hasError,
         addContact,
         editContact,
         removeContact,
+        loadContacts,
       }}
     >
       {children}

@@ -9,6 +9,7 @@ import { useContacts } from '@/contexts/contacts-context'
 import { ContactCard } from './components/contact-card'
 import { ContactFallback } from './components/contact-fallback'
 import { ContactPagination } from './components/contact-pagination'
+import { ErrorFallback } from './components/error-fallback'
 import { Filters } from './components/filters'
 import { RemoveModal } from './components/remove-modal'
 import { StatisticsModal } from './components/statistics-modal'
@@ -21,7 +22,14 @@ export function Home() {
   const [removeModalIsOpen, setRemoveModalIsOpen] = useState(false)
   const [removeContactId, setRemoveContactId] = useState<number | null>(null)
 
-  const { contacts, isFirstLoading, isLoading, removeContact } = useContacts()
+  const {
+    contacts,
+    isFirstLoading,
+    isLoading,
+    hasError,
+    removeContact,
+    loadContacts,
+  } = useContacts()
 
   const {
     filterParams,
@@ -123,15 +131,23 @@ export function Home() {
           />
         </section>
 
-        {isLoading && (
-          <div className="mx-auto mt-40 w-fit">
-            <Spinner className="h-16 w-16" />
-          </div>
+        {(isLoading || isFirstLoading || contacts.length === 0) &&
+          !hasError && (
+            <div className="mx-auto mt-8 w-fit">
+              <Spinner className="h-16 w-16" />
+            </div>
+          )}
+
+        {hasError && (
+          <section className="mt-8">
+            <ErrorFallback onTryAgain={loadContacts} />
+          </section>
         )}
 
         {!isLoading &&
+          contacts.length > 0 &&
           (paginationContacts.length === 0 || searchContacts.length === 0) && (
-            <section className="mt-16 md:mt-28">
+            <section className="mt-8">
               <ContactFallback />
             </section>
           )}
