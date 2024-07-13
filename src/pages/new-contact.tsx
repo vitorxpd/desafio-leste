@@ -32,7 +32,7 @@ export function NewContact() {
       </section>
 
       {isLoading && (
-        <div className="mx-auto mt-40 w-fit">
+        <div className="mx-auto w-fit">
           <Spinner className="h-16 w-16" />
         </div>
       )}
