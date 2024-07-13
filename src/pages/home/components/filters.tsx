@@ -50,14 +50,14 @@ export function Filters({
 
       <PopoverContent onInteractOutside={handleClosePopover}>
         <div className="mb-2 flex items-center justify-between">
-          <h3 className="text-lg">Filters</h3>
+          <h3 className="text-base">Filters</h3>
 
           <Button
             variant="ghost"
-            className="relative h-5 w-5 p-0"
+            className="relative h-6 w-6 p-0"
             onClick={handleClosePopover}
           >
-            <X className="absolute h-full w-full" />
+            <X className="absolute h-4 w-4" />
           </Button>
         </div>
 
