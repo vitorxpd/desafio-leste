@@ -138,7 +138,7 @@ export function Home() {
             </div>
           )}
 
-        {hasError && (
+        {hasError && contacts.length === 0 && (
           <section className="mt-8">
             <ErrorFallback onTryAgain={loadContacts} />
           </section>
