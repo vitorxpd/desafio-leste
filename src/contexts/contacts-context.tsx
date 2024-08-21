@@ -8,10 +8,10 @@ import {
   useState,
 } from 'react'
 
+import { storageKeys } from '@/config/storage-keys'
 import { IContact } from '@/entities/IContact'
 import { APIError } from '@/errors/api-error'
 import { StorageError } from '@/errors/storage-error'
-import { storageKey } from '@/lib/constants'
 import { generateId, sleep } from '@/lib/utils'
 import { ContactsService } from '@/services/contacts-service'
 
@@ -61,7 +61,7 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
 
       const newContacts = [...contacts, newContact]
 
-      localStorage.setItem(storageKey, JSON.stringify(newContacts))
+      localStorage.setItem(storageKeys.contacts, JSON.stringify(newContacts))
       setContacts(newContacts)
       setHasError(false)
       setIsLoading(false)
@@ -81,7 +81,10 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
         return newContact
       })
 
-      localStorage.setItem(storageKey, JSON.stringify(updatedContacts))
+      localStorage.setItem(
+        storageKeys.contacts,
+        JSON.stringify(updatedContacts),
+      )
       setContacts(updatedContacts)
       setHasError(false)
       setIsLoading(false)
@@ -97,7 +100,10 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
         (contact) => contact.id !== contactId,
       )
 
-      localStorage.setItem(storageKey, JSON.stringify(filteredContacts))
+      localStorage.setItem(
+        storageKeys.contacts,
+        JSON.stringify(filteredContacts),
+      )
       setContacts(filteredContacts)
       setHasError(false)
       setIsLoading(false)
@@ -110,7 +116,7 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
       return
     }
 
-    const storage = localStorage.getItem(storageKey)
+    const storage = localStorage.getItem(storageKeys.contacts)
 
     if (!storage) {
       return
@@ -157,7 +163,7 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
         })
 
         if (status === 200) {
-          localStorage.setItem(storageKey, JSON.stringify(data))
+          localStorage.setItem(storageKeys.contacts, JSON.stringify(data))
           setContacts(data)
           setHasError(false)
           return
