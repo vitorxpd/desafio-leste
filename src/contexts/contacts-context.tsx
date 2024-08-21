@@ -12,7 +12,7 @@ import { storageKeys } from '@/config/storage-keys'
 import { IContact } from '@/entities/IContact'
 import { APIError } from '@/errors/api-error'
 import { StorageError } from '@/errors/storage-error'
-import { generateId, sleep } from '@/lib/utils'
+import { generateId } from '@/lib/utils'
 import { ContactsService } from '@/services/contacts-service'
 
 interface IContactsContext {
@@ -111,7 +111,7 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
     [contacts],
   )
 
-  const loadStorage = useCallback(async () => {
+  const loadStorage = useCallback(() => {
     if (contacts.length > 0) {
       return
     }
@@ -127,8 +127,6 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
 
       setHasError(false)
       setIsLoading(true)
-
-      await sleep()
 
       if (contactsStorage.length > 0) {
         setContacts(contactsStorage)
