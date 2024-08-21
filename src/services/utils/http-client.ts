@@ -1,37 +1,16 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios from 'axios'
 
-import { delay } from '@/lib/utils'
+import { sleep } from '@/lib/utils'
 
-interface IHttpClient {
-  get<T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>>
-}
+export const httpClient = axios.create({
+  baseURL: 'https://my.api.mockaroo.com/lestetelecom/test.json',
+  params: {
+    key: 'f55c4060',
+  },
+})
 
-export class HttpClient implements IHttpClient {
-  private baseConfig: AxiosRequestConfig
+httpClient.interceptors.response.use(async (response) => {
+  await sleep()
 
-  constructor(baseConfig: AxiosRequestConfig) {
-    this.baseConfig = baseConfig
-  }
-
-  public get<T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    const response = this.makeRequest<T>({
-      method: 'GET',
-      ...config,
-    })
-
-    return response
-  }
-
-  private async makeRequest<T>(
-    config: AxiosRequestConfig,
-  ): Promise<AxiosResponse<T>> {
-    await delay()
-
-    const response = await axios<T>({
-      ...this.baseConfig,
-      ...config,
-    })
-
-    return response
-  }
-}
+  return response
+})

@@ -8,12 +8,12 @@ import {
   useState,
 } from 'react'
 
+import { IContact } from '@/entities/IContact'
 import { APIError } from '@/errors/api-error'
 import { StorageError } from '@/errors/storage-error'
-import { IContact } from '@/interfaces/IContact'
 import { storageKey } from '@/lib/constants'
-import { delay, generateId } from '@/lib/utils'
-import ContactsService from '@/services/contacts-service'
+import { generateId, sleep } from '@/lib/utils'
+import { ContactsService } from '@/services/contacts-service'
 
 interface IContactsContext {
   contacts: IContact[]
@@ -122,7 +122,7 @@ export function ContactsProvider({ children }: { children: ReactNode }) {
       setHasError(false)
       setIsLoading(true)
 
-      await delay()
+      await sleep()
 
       if (contactsStorage.length > 0) {
         setContacts(contactsStorage)

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/sonner'
 import { Spinner } from '@/components/ui/spinner'
 import { useContacts } from '@/contexts/contacts-context'
-import { IContact } from '@/interfaces/IContact'
+import { IContact } from '@/entities/IContact'
 
 export function EditContact() {
   const [currentContact, setCurrentContact] = useState<
